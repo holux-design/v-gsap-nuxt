@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     presets: [{
       name: 'spin',
       modifiers: 'infinitely.to',
-      value: { rotate: '90deg', ease: 'linear' }
-    }]
-  }
+      value: { rotate: '90deg', ease: 'linear' },
+    }],
+  },
 })

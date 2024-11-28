@@ -18,16 +18,15 @@ type TIMELINE_OPTIONS = {
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
-
   const configOptions = useRuntimeConfig().public.vgsap
-  
+
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, Draggable, TextPlugin)
   let resizeListener
 
   nuxtApp.vueApp.directive('gsap', {
 
     beforeMount(el, binding) {
-        binding = loadPreset(binding, configOptions)
+      loadPreset(binding, configOptions)
     },
 
     mounted(el, binding) {
@@ -248,15 +247,15 @@ function addMagneticEffect(el, binding) {
 }
 
 function loadPreset(binding, configOptions) {
-   // Load Preset if .preset. modifier is set
-   if (binding.modifiers.preset && !!configOptions?.presets?.length) {
-      const preset = configOptions?.presets.find((preset) => preset.name == binding.value)
-      if (!!preset) {
-         preset.modifiers.split('.').forEach((modifier) => (binding.modifiers[modifier] = true))
-         if (preset.value) binding.value = preset.value
-      }
-   }
-   return binding
+  // Load Preset if .preset. modifier is set
+  if (binding.modifiers.preset && !!configOptions?.presets?.length) {
+    const preset = configOptions?.presets.find(preset => preset.name == binding.value)
+    if (preset) {
+      preset.modifiers.split('.').forEach(modifier => (binding.modifiers[modifier] = true))
+      if (preset.value) binding.value = preset.value
+    }
+  }
+  return binding
 }
 
 function resetAndKillTimeline(timeline) {
