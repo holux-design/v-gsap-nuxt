@@ -39,7 +39,7 @@ jobs:
         run: npx nypm@latest i
 
       - name: Playground prepare
-        run: npm run dev:prepare
+        run: npm run prepare:playground
 
       - name: Test
         run: npm run test
