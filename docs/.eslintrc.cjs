@@ -5,10 +5,13 @@ module.exports = {
     'dist',
     'node_modules',
     '.output',
-    '.nuxt'
+    '.nuxt',
   ],
   rules: {
     'vue/max-attributes-per-line': 'off',
-    'vue/multi-word-component-names': 'off'
-  }
+    'vue/multi-word-component-names': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+    'no-unsafe-optional-chaining': 'off',
+  },
 }

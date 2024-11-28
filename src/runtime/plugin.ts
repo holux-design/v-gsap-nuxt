@@ -87,9 +87,9 @@ function mountGSAPDirective(el, binding) {
   }
 
   if (binding.modifiers.markers && binding.modifiers.parallax)
-    timelineOptions.scrollTrigger.markers = true
+    timelineOptions.scrollTrigger!.markers = true
   if (!once && binding.modifiers.parallax)
-    timelineOptions.scrollTrigger.toggleActions = 'restart none none reverse'
+    timelineOptions.scrollTrigger!.toggleActions = 'restart none none reverse'
 
   // .infinitely.
   if (binding.modifiers.infinitely) timelineOptions.repeat = -1
