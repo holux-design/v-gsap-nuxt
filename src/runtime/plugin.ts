@@ -1,7 +1,7 @@
 import Draggable from 'gsap/Draggable'
 import TextPlugin from 'gsap/TextPlugin'
 import { gsap, ScrollTrigger, ScrollToPlugin } from 'gsap/all'
-import { defineNuxtPlugin, ref } from '#app'
+import { defineNuxtPlugin } from '#app'
 
 type ANIMATION_TYPES = 'from' | 'to' | 'set' | 'fromTo' | 'call'
 
