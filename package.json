@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.14.1592",
+    "defu": "^6.1.4",
     "gsap": "^3.12.5"
   },
   "devDependencies": {
