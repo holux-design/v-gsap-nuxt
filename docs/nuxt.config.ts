@@ -4,5 +4,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [],
-  compatibilityDate: '2024-10-24'
+  compatibilityDate: '2024-10-24',
+
+  nitro: {
+    preset: 'vercel',
+    output: {
+      dir: '../.vercel/output',
+    },
+  },
 })
