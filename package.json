@@ -1,7 +1,7 @@
 {
   "name": "v-gsap-nuxt",
   "version": "1.0.0",
-  "description": "GSAP Directive for Nuxt",
+  "description": "GSAP Directive for Nuxt 3",
   "repository": "your-org/my-module",
   "license": "MIT",
   "type": "module",
