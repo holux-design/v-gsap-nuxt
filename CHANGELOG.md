@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.0.2
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.0.1...v1.0.2)
+
+### 🩹 Fixes
+
+- Ref is not defined on run ([1fcb94b](https://github.com/holux-design/v-gsap-nuxt/commit/1fcb94b))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.0.1
 
 
