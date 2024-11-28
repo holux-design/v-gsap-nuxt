@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v1.0.5
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.0.4...v1.0.5)
+
+### 🩹 Fixes
+
+- Og-image ([3c38017](https://github.com/holux-design/v-gsap-nuxt/commit/3c38017))
+- Lint errors ([fa4ccb7](https://github.com/holux-design/v-gsap-nuxt/commit/fa4ccb7))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.0.4
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.0.3...v1.0.4)
