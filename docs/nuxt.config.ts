@@ -3,10 +3,6 @@ export default defineNuxtConfig({
   extends: ['@nuxt-themes/docus'],
   devtools: { enabled: true },
 
-  modules: [
-    // Remove it if you don't use Plausible analytics
-    // https://github.com/nuxt-modules/plausible
-    '@nuxtjs/plausible'
-  ],
+  modules: [],
   compatibilityDate: '2024-10-24'
 })

@@ -13,9 +13,9 @@
     "@nuxt-themes/docus": "latest",
     "@nuxt/devtools": "^1.6.0",
     "@nuxt/eslint-config": "^0.6.1",
-    "@nuxtjs/plausible": "^1.0.3",
     "@types/node": "^22.9.0",
     "eslint": "^9.14.0",
-    "nuxt": "^3.14.159"
+    "nuxt": "^3.14.159",
+    "pinceau": "^0.15.4"
   }
 }
