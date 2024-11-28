@@ -10,11 +10,12 @@ export default createConfigForNuxt({
     stylistic: true,
   },
   dirs: {
-    src: [
-      './playground',
-    ],
+    src: ['./playground'],
+  },
+}).append({
+  rules: {
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+    'no-unsafe-optional-chaining': 'off',
   },
 })
-  .append(
-    // your custom flat config here...
-  )
