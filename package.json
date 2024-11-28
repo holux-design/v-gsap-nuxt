@@ -2,7 +2,7 @@
   "name": "v-gsap-nuxt",
   "version": "1.0.1",
   "description": "GSAP Directive for Nuxt 3",
-  "repository": "your-org/my-module",
+  "repository": "holux-design/v-gsap-nuxt",
   "license": "MIT",
   "type": "module",
   "exports": {
