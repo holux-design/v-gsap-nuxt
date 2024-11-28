@@ -3,7 +3,7 @@ export default defineAppConfig({
   docus: {
     title: 'v-gsap-nuxt',
     description: 'GSAP as a directive for Nuxt',
-    image: '/cover.png',
+    image: 'https://v-gsap-nuxt.vercel.app/cover.png',
     socials: {
       github: 'holux-design/v-gsap-nuxt',
       nuxt: {
