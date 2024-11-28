@@ -1,6 +1,6 @@
 {
   "name": "v-gsap-nuxt",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "GSAP Directive for Nuxt 3",
   "repository": "holux-design/v-gsap-nuxt",
   "license": "MIT",
