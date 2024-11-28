@@ -201,7 +201,6 @@ function addMagneticEffect(el, binding) {
     strong: 2,
   }
 
-  const isHovering = ref(false)
   const handleMouseMove = (e: MouseEvent) => {
     if (el) {
       const { width, height, left, top } = el.getBoundingClientRect()
@@ -226,7 +225,6 @@ function addMagneticEffect(el, binding) {
           y: deltaY * strength * attractionStrength,
           duration: 0.2,
         })
-        isHovering.value = true
       }
       else {
         gsap.to(el, {
@@ -234,7 +232,6 @@ function addMagneticEffect(el, binding) {
           y: 0,
           duration: 0.3,
         })
-        isHovering.value = false
       }
     }
   }
