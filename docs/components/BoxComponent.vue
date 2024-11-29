@@ -19,6 +19,7 @@
     </div>
 
     <button
+      hide-scrollbar
       class="dark:text-white/25 text-black/25 absolute bottom-2 inset-x-0 px-4 overflow-scroll text-[14px]"
       @click="copy(code)"
     >
@@ -48,3 +49,14 @@ function copy(code?: string) {
   alert('Copied to clipboard')
 }
 </script>
+
+<style lang="scss" scoped>
+[hide-scrollbar] {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+</style>
