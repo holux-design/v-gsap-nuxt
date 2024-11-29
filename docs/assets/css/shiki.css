@@ -1,16 +1,16 @@
-.shiki {
+.Snippet .shiki {
 	border-radius: 8px;
 	border: 1px solid rgba(255,255,255,0.1) !important;
 	background-color: rgba(255,255,255,0.05) !important;
 }
 
-.light .shiki {
+.light .Snippet  .shiki {
 	border: 1px solid rgba(255,255,255,0.1) !important;
 	background-color: rgba(255,255,255,0.05) !important;
 	filter:invert(1) saturate(2);
 }
 
-.shiki code {
+.Snippet .shiki code {
 	display: flex;
 	flex-direction: column;
 
@@ -18,6 +18,6 @@
 	overflow:auto;
 }
 
-.shiki code * {
+.Snippet .shiki code * {
 	font-size: 12px;
 }

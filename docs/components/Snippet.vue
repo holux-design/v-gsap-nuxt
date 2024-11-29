@@ -1,5 +1,5 @@
 <template>
-  <pre v-html="html" />
+  <pre class="Snippet" v-html="html" />
 </template>
 
 <script setup lang="ts">

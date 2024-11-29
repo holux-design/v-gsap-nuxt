@@ -31,4 +31,10 @@ export default defineNuxtConfig({
       },
     ],
   },
+
+  routeRules: {
+    '/usage/playground': {
+      redirect: '/playground'
+    }
+  }
 })
