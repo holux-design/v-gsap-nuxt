@@ -18,5 +18,7 @@ export default createConfigForNuxt({
     '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
     'no-unsafe-optional-chaining': 'off',
     'vue/multi-word-component-names': 'off',
+    '@stylistic/no-tabs': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
   },
 })

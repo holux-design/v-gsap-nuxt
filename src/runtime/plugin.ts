@@ -26,11 +26,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('gsap', {
 
     getSSRProps: (binding) => {
-        return {
-          style: {
-            opacity: binding.modifiers.fromInvisible ? '0' : '1',
-          }
-        }
+      return {
+        style: {
+          opacity: binding.modifiers.fromInvisible ? '0' : '1',
+        },
+      }
     },
 
     beforeMount(el, binding) {
@@ -59,7 +59,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 })
 
 function timelineShouldBeActive(binding, configOptions) {
-  const breakpoint:number = configOptions?.breakpoint || 768
+  const breakpoint: number = configOptions?.breakpoint || 768
 
   if (binding.modifiers.desktop && window.innerWidth <= breakpoint)
     return false
@@ -236,7 +236,7 @@ function addMagneticEffect(el, binding) {
         )?.[1] || 1
 
       const direction = binding.modifiers.refuse ? -1 : 1
-      if(binding.modifiers.refuse) strengthFactor = 4;
+      if (binding.modifiers.refuse) strengthFactor = 4
 
       const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2)
       const magneticDistance = ((width + height) / 2) * (strengthFactor / 1.5) // Distance for magnetic attraction

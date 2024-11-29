@@ -5,17 +5,17 @@ export default defineTheme({
     black: '#0B0A0A',
     // Primary is modified lightblue
     primary: {
-      '50': '#effef2',
-			'100': '#d8ffe3',
-			'200': '#b4fec7',
-			'300': '#7afb9d',
-			'400': '#39ef6b',
-			'500': '#10d747',
-			'600': '#06b236',
-			'700': '#098c2e',
-			'800': '#0d6e29',
-			'900': '#0d5a25',
-			'950': '#003310',
+      50: '#effef2',
+      100: '#d8ffe3',
+      200: '#b4fec7',
+      300: '#7afb9d',
+      400: '#39ef6b',
+      500: '#10d747',
+      600: '#06b236',
+      700: '#098c2e',
+      800: '#0d6e29',
+      900: '#0d5a25',
+      950: '#003310',
     },
     gray: {
       50: '#FBFBFB',
@@ -27,7 +27,7 @@ export default defineTheme({
       600: '#67635D',
       700: '#36332E',
       800: '#201E1B',
-      900: '#121110'
+      900: '#121110',
     },
     red: {
       50: '#FFF9F8',
@@ -39,7 +39,7 @@ export default defineTheme({
       600: '#BB2402',
       700: '#701704',
       800: '#340A01',
-      900: '#1C0301'
+      900: '#1C0301',
     },
     blue: {
       50: '#F2FAFF',
@@ -51,7 +51,7 @@ export default defineTheme({
       600: '#0069A6',
       700: '#014267',
       800: '#002235',
-      900: '#00131D'
+      900: '#00131D',
     },
     green: {
       50: '#ECFFF7',
@@ -63,7 +63,7 @@ export default defineTheme({
       600: '#00B467',
       700: '#006037',
       800: '#002817',
-      900: '#00190F'
+      900: '#00190F',
     },
     yellow: {
       50: '#FFFCEE',
@@ -75,59 +75,59 @@ export default defineTheme({
       600: '#CBA408',
       700: '#614E02',
       800: '#292100',
-      900: '#1B1500'
+      900: '#1B1500',
     },
     shadow: {
       initial: '{color.gray.400}',
-      dark: '{color.gray.800}'
-    }
+      dark: '{color.gray.800}',
+    },
   },
   shadow: {
-    xs: '0px 1px 2px 0px {color.shadow}',
-    sm: '0px 1px 3px 0px {color.shadow}, 0px 1px 2px -1px {color.shadow}',
-    md: '0px 4px 6px -1px {color.shadow}, 0px 2px 4px -2px {color.shadow}',
-    lg: '0px 10px 15px -3px {color.shadow}, 0px 4px 6px -4px {color.shadow}',
-    xl: '0px 20px 25px -5px {color.shadow}, 0px 8px 10px -6px {color.shadow}',
+    'xs': '0px 1px 2px 0px {color.shadow}',
+    'sm': '0px 1px 3px 0px {color.shadow}, 0px 1px 2px -1px {color.shadow}',
+    'md': '0px 4px 6px -1px {color.shadow}, 0px 2px 4px -2px {color.shadow}',
+    'lg': '0px 10px 15px -3px {color.shadow}, 0px 4px 6px -4px {color.shadow}',
+    'xl': '0px 20px 25px -5px {color.shadow}, 0px 8px 10px -6px {color.shadow}',
     '2xl': '0px 25px 50px -12px {color.shadow}',
-    none: '0px 0px 0px 0px transparent'
+    'none': '0px 0px 0px 0px transparent',
   },
   docus: {
     $schema: {
       title: 'All the configurable tokens from Docus.',
       tags: [
-        '@studioIcon material-symbols:docs'
-      ]
+        '@studioIcon material-symbols:docs',
+      ],
     },
     body: {
       backgroundColor: {
         initial: '{color.white}',
-        dark: '{color.black}'
+        dark: '{color.black}',
       },
       color: {
         initial: '{color.gray.800}',
-        dark: '{color.gray.200}'
+        dark: '{color.gray.200}',
       },
-      fontFamily: '{font.sans}'
+      fontFamily: '{font.sans}',
     },
     header: {
       height: '64px',
       logo: {
         height: {
           initial: '{space.6}',
-          sm: '{space.7}'
-        }
+          sm: '{space.7}',
+        },
       },
       title: {
-        fontSize: '{fontSize.2xl}', 
-        fontWeight: '{fontWeight.bold}', 
+        fontSize: '{fontSize.2xl}',
+        fontWeight: '{fontWeight.bold}',
         color: {
           static: {
-            initial: '{color.gray.900}', 
-            dark: '{color.gray.100}', 
+            initial: '{color.gray.900}',
+            dark: '{color.gray.100}',
           },
-          hover: '{color.primary.500}', 
-        }
-      }
+          hover: '{color.primary.500}',
+        },
+      },
     },
     footer: { height: { initial: '145px', sm: '100px' }, padding: '{space.4} 0' },
     readableLine: '78ch',
@@ -135,7 +135,7 @@ export default defineTheme({
       height: '3px',
       gradientColorStop1: '#00dc82',
       gradientColorStop2: '#34cdfe',
-      gradientColorStop3: '#0047e1'
+      gradientColorStop3: '#0047e1',
     },
     search: {
       backdropFilter: 'blur(24px)',
@@ -145,48 +145,48 @@ export default defineTheme({
         borderStyle: 'solid',
         borderColor: {
           initial: '{color.gray.200}',
-          dark: 'transparent'
+          dark: 'transparent',
         },
         fontSize: '{fontSize.sm}',
         gap: '{space.2}',
         padding: '{space.2} {space.4}',
         backgroundColor: {
           initial: '{color.gray.200}',
-          dark: '{color.gray.800}'
+          dark: '{color.gray.800}',
         },
       },
       results: {
         window: {
           marginX: {
             initial: '0',
-            sm: '{space.4}'
+            sm: '{space.4}',
           },
           borderRadius: {
             initial: 'none',
-            sm: '{radii.xs}'
+            sm: '{radii.xs}',
           },
           marginTop: {
             initial: '0',
-            sm: '20vh'
+            sm: '20vh',
           },
           maxWidth: '640px',
           maxHeight: {
             initial: '100%',
-            sm: '320px'
+            sm: '320px',
           },
         },
         selected: {
           backgroundColor: {
             initial: '{color.gray.300}',
-            dark: '{color.gray.700}'
+            dark: '{color.gray.700}',
           },
         },
         highlight: {
           color: 'white',
-          backgroundColor: '{color.primary.500}'
-        }
-      }
-    }
+          backgroundColor: '{color.primary.500}',
+        },
+      },
+    },
   },
   typography: {
     color: {
@@ -200,7 +200,7 @@ export default defineTheme({
         600: '{color.primary.600}',
         700: '{color.primary.700}',
         800: '{color.primary.800}',
-        900: '{color.primary.900}'
+        900: '{color.primary.900}',
       },
       secondary: {
         50: '{color.gray.50}',
@@ -212,8 +212,8 @@ export default defineTheme({
         600: '{color.gray.600}',
         700: '{color.gray.700}',
         800: '{color.gray.800}',
-        900: '{color.gray.900}'
-      }
-    }
-  }
+        900: '{color.gray.900}',
+      },
+    },
+  },
 })

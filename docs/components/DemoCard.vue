@@ -1,12 +1,12 @@
 <template>
-	<article v-gsap.whenVisible.from="{ scale: 0.8, height: 0, padding: 0 }">
-		<div v-gsap.whenVisible.from="{ y: 100 }"></div>
-		<div v-gsap.whenVisible.delay-1000.stagger.from="{ opacity: 0, x: -40 }">
-			<div class="h-[20px] w-[200px]"></div>
-			<div class="h-[14px] w-[140px]"></div>
-			<div class="h-[14px] w-[120px]"></div>
-		</div>
-	</article>
+  <article v-gsap.whenVisible.from="{ scale: 0.8, height: 0, padding: 0 }">
+    <div v-gsap.whenVisible.from="{ y: 100 }" />
+    <div v-gsap.whenVisible.delay-1000.stagger.from="{ opacity: 0, x: -40 }">
+      <div class="h-[20px] w-[200px]" />
+      <div class="h-[14px] w-[140px]" />
+      <div class="h-[14px] w-[120px]" />
+    </div>
+  </article>
 </template>
 
 <style lang="scss" scoped>

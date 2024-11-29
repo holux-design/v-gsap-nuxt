@@ -4,12 +4,12 @@ export default defineNuxtConfig({
 
   modules: ['../src/module', '@nuxtjs/tailwindcss'],
   devtools: { enabled: true },
-  compatibilityDate: '2024-10-24',
 
   css: [
     '~/assets/css/terminal.css',
     '~/assets/css/shiki.css',
   ],
+  compatibilityDate: '2024-10-24',
 
   nitro: {
     preset: 'vercel',

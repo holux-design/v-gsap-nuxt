@@ -1,8 +1,8 @@
 <template>
-	<section>
-		<div v-gsap.parallax.faster></div>
-		<div v-gsap.parallax.faster-10></div>
-	</section>
+  <section>
+    <div v-gsap.parallax.faster />
+    <div v-gsap.parallax.faster-10 />
+  </section>
 </template>
 
 <style lang="scss" scoped>
