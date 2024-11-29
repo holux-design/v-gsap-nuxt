@@ -9,6 +9,12 @@ export default defineNuxtConfig({
     '~/assets/css/terminal.css',
     '~/assets/css/shiki.css',
   ],
+
+  routeRules: {
+    '/usage/playground': {
+      redirect: '/playground',
+    },
+  },
   compatibilityDate: '2024-10-24',
 
   nitro: {
@@ -31,10 +37,4 @@ export default defineNuxtConfig({
       },
     ],
   },
-
-  routeRules: {
-    '/usage/playground': {
-      redirect: '/playground'
-    }
-  }
 })
