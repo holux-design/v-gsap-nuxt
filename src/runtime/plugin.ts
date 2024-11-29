@@ -26,7 +26,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('gsap', {
 
     beforeMount(el, binding) {
-      loadPreset(binding, configOptions)
+      binding = loadPreset(binding, configOptions)
     },
 
     mounted(el, binding) {
