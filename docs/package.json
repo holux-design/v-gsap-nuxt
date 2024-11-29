@@ -13,9 +13,11 @@
     "@nuxt-themes/docus": "latest",
     "@nuxt/devtools": "^1.6.0",
     "@nuxt/eslint-config": "^0.6.1",
+    "@nuxtjs/tailwindcss": "^6.12.2",
     "@types/node": "^22.9.0",
     "eslint": "^9.14.0",
     "nuxt": "^3.14.159",
-    "pinceau": "^0.15.4"
+    "pinceau": "^0.15.4",
+    "sass": "^1.81.0"
   }
 }

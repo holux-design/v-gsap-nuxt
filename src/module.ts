@@ -8,7 +8,7 @@ export interface ModuleOptions {
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'v-gsap-nuxt',
+    name: 'v-gsap',
     configKey: 'vgsap',
     compatibility: {
       nuxt: '>=3.0.0',
@@ -18,9 +18,12 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {},
   setup(_options, _nuxt) {
     const resolver = createResolver(import.meta.url)
-    _nuxt.options.runtimeConfig.public.vgsap = defu(_nuxt.options.runtimeConfig.public.vgsap as any, {
-      ..._options,
-    })
+    _nuxt.options.runtimeConfig.public.vgsap = defu(
+      _nuxt.options.runtimeConfig.public.vgsap as any,
+      {
+        ..._options,
+      },
+    )
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addPlugin(resolver.resolve('./runtime/plugin'))
