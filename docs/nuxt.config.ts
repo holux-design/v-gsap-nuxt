@@ -6,7 +6,10 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   compatibilityDate: '2024-10-24',
 
-  css: ['~/assets/css/terminal.css'],
+  css: [
+    '~/assets/css/terminal.css',
+    '~/assets/css/shiki.css',
+  ],
 
   nitro: {
     preset: 'vercel',

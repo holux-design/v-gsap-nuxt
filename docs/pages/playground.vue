@@ -11,14 +11,13 @@
           <DemoParallax />
         </BoxComponent>
         
-        <img class="w-full object-contain" src="/snippets/DemoParallax.svg" />
+        <Snippet name="DemoParallax" class="w-full" />
       </div>
       <div class="Grid !grid-cols-1 lg:!grid-cols-2 mt-20">
         <BoxComponent class="w-full">
           <DemoCard />
         </BoxComponent>
-        
-        <img class="w-full object-contain" src="/snippets/DemoCard.svg" />
+        <Snippet name="DemoCard" class="w-full" />
       </div>
     </section>
 
