@@ -25,6 +25,14 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   nuxtApp.vueApp.directive('gsap', {
 
+    getSSRProps: (binding) => {
+        return {
+          style: {
+            opacity: binding.modifiers.fromInvisible ? '0' : '1',
+          }
+        }
+    },
+
     beforeMount(el, binding) {
       binding = loadPreset(binding, configOptions)
     },
@@ -33,14 +41,14 @@ export default defineNuxtPlugin((nuxtApp) => {
       let timeline
       if (binding.modifiers.magnetic) return addMagneticEffect(el, binding)
 
-      if (timelineShouldBeActive(binding))
-        timeline = mountGSAPDirective(el, binding)
+      if (timelineShouldBeActive(binding, configOptions))
+        timeline = prepareAnimation(el, binding)
 
       resizeListener = window.addEventListener('resize', () => {
-        if (!timelineShouldBeActive(binding) && !!timeline)
+        if (!timelineShouldBeActive(binding, configOptions) && !!timeline)
           timeline = resetAndKillTimeline(timeline)
-        if (timelineShouldBeActive(binding) && !timeline)
-          timeline = mountGSAPDirective(el, binding)
+        if (timelineShouldBeActive(binding, configOptions) && !timeline)
+          timeline = prepareAnimation(el, binding)
       })
     },
 
@@ -50,10 +58,12 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 })
 
-function timelineShouldBeActive(binding) {
-  if (binding.modifiers.desktop && window.innerWidth <= breakpoints.md)
+function timelineShouldBeActive(binding, configOptions) {
+  const breakpoint:number = configOptions?.breakpoint || 768
+
+  if (binding.modifiers.desktop && window.innerWidth <= breakpoint)
     return false
-  if (binding.modifiers.mobile && window.innerWidth > breakpoints.md)
+  if (binding.modifiers.mobile && window.innerWidth > breakpoint)
     return false
 
   return true
@@ -63,7 +73,7 @@ const breakpoints = {
   md: 768,
 }
 
-function mountGSAPDirective(el, binding) {
+function prepareAnimation(el, binding) {
   const timelineOptions: TIMELINE_OPTIONS = {}
 
   // Prepare ScrollTrigger if .whenVisible. modifier is present
@@ -141,7 +151,10 @@ function mountGSAPDirective(el, binding) {
   const animationType: ANIMATION_TYPES = Object.keys(binding.modifiers).find(
     modifier => ['to', 'from', 'set', 'fromTo', 'call'].includes(modifier),
   ) as ANIMATION_TYPES
-  if (animationType == 'to') timeline.to(el, { ...binding.value, stagger })
+  if (animationType == 'to') {
+    if (binding.modifiers.fromInvisible) binding.value.opacity = binding.value.opacity || 1
+    timeline.to(el, { ...binding.value, stagger })
+  }
   if (animationType == 'set') timeline.set(el, { ...binding.value, stagger })
   if (animationType == 'from') timeline.from(el, { ...binding.value, stagger })
 
@@ -149,6 +162,7 @@ function mountGSAPDirective(el, binding) {
   if (animationType == 'fromTo') {
     const values = binding.value
     if (binding.modifiers.stagger) values[1].stagger = stagger
+    if (binding.modifiers.fromInvisible) values[1].opacity = values[1].opacity || 1
     timeline.fromTo(el, ...binding.value)
   }
 
