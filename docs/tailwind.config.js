@@ -7,6 +7,7 @@ module.exports = {
   mode: 'jit',
   content: [
     'components/**/*.{html,js,vue}',
+    'content/**/*.{md}',
     'pages/**/*.vue',
   ],
   theme: {

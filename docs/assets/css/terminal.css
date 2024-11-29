@@ -1,0 +1,11 @@
+.terminal {
+	max-height: 100px;
+}
+
+.terminal .header {
+	min-height: 36px;
+}
+
+.terminal .line {
+	margin-top: 4px;
+}
