@@ -5,32 +5,6 @@
     <section>
       <div class="header">
         <h2>
-          <pre>.magnetic</pre>
-        </h2>
-        <a href="/usage/modifiers#magnetic" target="_blank">See reference</a>
-      </div>
-      <div class="Grid">
-        <BoxComponent code="v-gsap.magnetic" title="Default">
-          <DemoComponent v-gsap.magnetic />
-        </BoxComponent>
-        <BoxComponent code="v-gsap.magnetic.weak" title=".weak">
-          <DemoComponent v-gsap.magnetic.weak />
-        </BoxComponent>
-        <BoxComponent code="v-gsap.magnetic.weaker" title=".weaker">
-          <DemoComponent v-gsap.magnetic.weaker />
-        </BoxComponent>
-        <BoxComponent code="v-gsap.magnetic.stronger" title=".stronger">
-          <DemoComponent v-gsap.magnetic.stronger />
-        </BoxComponent>
-        <BoxComponent code="v-gsap.magnetic.strong" title=".strong">
-          <DemoComponent v-gsap.magnetic.strong />
-        </BoxComponent>
-      </div>
-    </section>
-
-    <section>
-      <div class="header">
-        <h2>
           <pre>.parallax</pre>
         </h2>
         <a href="/usage/modifiers#parallax" target="_blank">See reference</a>
@@ -45,8 +19,40 @@
         <BoxComponent code="v-gsap.parallax.slower-10" title=".slower-10">
           <DemoComponent v-gsap.parallax.slower-10 />
         </BoxComponent>
+        <BoxComponent code="v-gsap.parallax.slower-20" title=".slower-20">
+          <DemoComponent v-gsap.parallax.slower-20 />
+        </BoxComponent>
         <BoxComponent code="v-gsap.parallax.faster-10" title=".faster-10">
           <DemoComponent v-gsap.parallax.faster-10 />
+        </BoxComponent>
+        <BoxComponent code="v-gsap.parallax.faster-20" title=".faster-20">
+          <DemoComponent v-gsap.parallax.faster-20 />
+        </BoxComponent>
+      </div>
+    </section>
+
+    <section>
+      <div class="header">
+        <h2>
+          <pre>.magnetic</pre>
+        </h2>
+        <a href="/usage/modifiers#magnetic" target="_blank">See reference</a>
+      </div>
+      <div class="Grid">
+        <BoxComponent code="v-gsap.magnetic" title="Default">
+          <DemoComponent text="Hover me" v-gsap.magnetic />
+        </BoxComponent>
+        <BoxComponent code="v-gsap.magnetic.weak" title=".weak">
+          <DemoComponent text="Hover me" v-gsap.magnetic.weak />
+        </BoxComponent>
+        <BoxComponent code="v-gsap.magnetic.weaker" title=".weaker">
+          <DemoComponent text="Hover me" v-gsap.magnetic.weaker />
+        </BoxComponent>
+        <BoxComponent code="v-gsap.magnetic.stronger" title=".stronger">
+          <DemoComponent text="Hover me" v-gsap.magnetic.stronger />
+        </BoxComponent>
+        <BoxComponent code="v-gsap.magnetic.strong" title=".strong">
+          <DemoComponent text="Hover me" v-gsap.magnetic.strong />
         </BoxComponent>
       </div>
     </section>
@@ -118,11 +124,7 @@
             v-gsap.whenVisible.animateText="'Lorem ipsum dolor sit amed'"
           />
         </BoxComponent>
-        <BoxComponent code="v-gsap.whenVisible.once.animateText" title=".once">
-          <DemoComponent
-            v-gsap.whenVisible.once.animateText="'Lorem ipsum dolor sit amed'"
-          />
-        </BoxComponent>
+        
         <BoxComponent code="v-gsap.whenVisible.animateText.slow" title=".slow">
           <DemoComponent
             v-gsap.whenVisible.animateText.slow="'Lorem ipsum dolor sit amed'"
@@ -131,6 +133,11 @@
         <BoxComponent code="v-gsap.whenVisible.animateText.fast" title=".fast">
           <DemoComponent
             v-gsap.whenVisible.animateText.fast="'Lorem ipsum dolor sit amed'"
+          />
+        </BoxComponent>
+        <BoxComponent code="v-gsap.whenVisible.once.animateText" title=".once">
+          <DemoComponent
+            v-gsap.whenVisible.once.animateText="'Lorem ipsum dolor sit amed'"
           />
         </BoxComponent>
         <BoxComponent
@@ -358,7 +365,8 @@ section {
     }
 
     pre {
-      @apply py-1 px-3 bg-white/10 text-white rounded-lg;
+      @apply py-1 px-3 bg-black/5 text-gray-700  rounded-lg;
+      @apply dark:text-white dark:bg-white/10;
     }
   }
 
