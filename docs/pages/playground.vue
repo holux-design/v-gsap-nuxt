@@ -3,11 +3,11 @@
     <h1>Playground</h1>
 
     <section>
-      <div class="header">
+      <div class="header" id="parallax">
         <h2>
           <pre>.parallax</pre>
         </h2>
-        <a href="/usage/modifiers#parallax" target="_blank">See reference</a>
+        <NuxtLink to="/usage/modifiers#parallax" target="_blank">See reference</NuxtLink>
       </div>
       <div class="Grid">
         <BoxComponent code="v-gsap.parallax.slower" title=".slower">
@@ -32,11 +32,11 @@
     </section>
 
     <section>
-      <div class="header">
+      <div class="header" id="magnetic">
         <h2>
           <pre>.magnetic</pre>
         </h2>
-        <a href="/usage/modifiers#magnetic" target="_blank">See reference</a>
+        <NuxtLink to="/usage/modifiers#magnetic" target="_blank">See reference</NuxtLink>
       </div>
       <div class="Grid">
         <BoxComponent code="v-gsap.magnetic" title="Default">
@@ -54,15 +54,18 @@
         <BoxComponent code="v-gsap.magnetic.strong" title=".strong">
           <DemoComponent text="Hover me" v-gsap.magnetic.strong />
         </BoxComponent>
+        <BoxComponent code="v-gsap.magnetic.refuse" title=".refuse (lol)">
+          <DemoComponent text="Try me" v-gsap.magnetic.refuse />
+        </BoxComponent>
       </div>
     </section>
 
     <section>
-      <div class="header">
+      <div class="header" id="whenvisible">
         <h2>
           <pre>.whenVisible</pre>
         </h2>
-        <a href="/usage/modifiers#whenVisible" target="_blank">See reference</a>
+        <NuxtLink to="/usage/modifiers#whenVisible" target="_blank">See reference</NuxtLink>
       </div>
       <div class="Grid">
         <BoxComponent
@@ -112,11 +115,11 @@
     </section>
 
     <section>
-      <div class="header">
+      <div class="header" id="animatetext">
         <h2>
           <pre>.animateText</pre>
         </h2>
-        <a href="/usage/modifiers#animatetext" target="_blank">See reference</a>
+        <NuxtLink to="/usage/modifiers#animatetext" target="_blank">See reference</NuxtLink>
       </div>
       <div class="Grid">
         <BoxComponent code="v-gsap.whenVisible.animateText" title="Default">
@@ -164,11 +167,11 @@
     </section>
 
     <section>
-      <div class="header">
+      <div class="header" id="stagger">
         <h2>
           <pre>.stagger</pre>
         </h2>
-        <a href="/usage/modifiers#stagger" target="_blank">See reference</a>
+        <NuxtLink to="/usage/modifiers#stagger" target="_blank">See reference</NuxtLink>
       </div>
       <div class="Grid">
         <BoxComponent
@@ -184,11 +187,11 @@
     </section>
 
     <section>
-      <div class="header">
+      <div class="header" id="whilehover">
         <h2>
           <pre>.whileHover</pre>
         </h2>
-        <a href="/usage/modifiers#whilehover" target="_blank">See reference</a>
+        <NuxtLink to="/usage/modifiers#whilehover" target="_blank">See reference</NuxtLink>
       </div>
       <div class="Grid">
         <BoxComponent
@@ -207,13 +210,43 @@
         </BoxComponent>
       </div>
     </section>
+    
+    <section>
+      <div class="header" id="delay">
+        <h2>
+          <pre>.delay-</pre>
+        </h2>
+        <NuxtLink to="/usage/modifiers#delay-milliseconds" target="_blank">See reference</NuxtLink>
+      </div>
+      <div class="Grid">
+        <BoxComponent
+          code="v-gsap.whileHover.delay-500.to='{ rotate: '-15deg', y: -12 }'"
+          title=".delay-500"
+        >
+          <DemoComponent v-gsap.whileHover.delay-500.to="{ scale: 1.2 }" />
+        </BoxComponent>
+        <BoxComponent
+          code="v-gsap.whileHover.delay-789.to='{ rotate: '-15deg', y: -12 }'"
+          title=".delay-789"
+        >
+          <DemoComponent v-gsap.whileHover.delay-789.to="{ scale: 1.2 }" />
+        </BoxComponent>
+
+        <BoxComponent
+          code="v-gsap.whenVisible.once.delay-1000.to='{ x: 100 }'"
+          title="delay after visible"
+        >
+          <DemoComponent v-gsap.whenVisible.once.delay-1000.to="{ x: 100 }" />
+        </BoxComponent>
+      </div>
+    </section>
 
     <section>
-      <div class="header">
+      <div class="header" id="infinitely">
         <h2>
           <pre>.infinitely</pre>
         </h2>
-        <a href="/usage/modifiers#infinitely" target="_blank">See reference</a>
+        <NuxtLink to="/usage/modifiers#infinitely" target="_blank">See reference</NuxtLink>
       </div>
       <div class="Grid">
         <BoxComponent
@@ -236,7 +269,7 @@
         <h2>
           <pre>.draggable</pre>
         </h2>
-        <a href="/usage/modifiers#draggable" target="_blank">See reference</a>
+        <NuxtLink to="/usage/modifiers#draggable" target="_blank">See reference</NuxtLink>
       </div>
       <div class="Grid">
         <BoxComponent code="v-gsap.draggable" title="Default">
@@ -262,12 +295,12 @@
     </section>
 
     <section>
-      <div class="header">
+      <div class="header" id="desktop">
         <h2 class="!flex items-center gap-2">
           <pre>.desktop</pre>
           <pre>.mobile</pre>
         </h2>
-        <a href="/usage/modifiers#desktop" target="_blank">See reference</a>
+        <NuxtLink to="/usage/modifiers#desktop" target="_blank">See reference</NuxtLink>
       </div>
       <div class="Grid">
         <BoxComponent code="v-gsap.desktop.infinitely.to" title="Desktop only">
@@ -292,11 +325,11 @@
     </section>
 
     <section>
-      <div class="header">
+      <div class="header" id="preset">
         <h2>
           <pre>.preset</pre>
         </h2>
-        <a href="/usage/modifiers#preset" target="_blank">See reference</a>
+        <NuxtLink to="/usage/modifiers#preset" target="_blank">See reference</NuxtLink>
       </div>
       <div class="Grid">
         <BoxComponent

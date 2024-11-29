@@ -216,10 +216,10 @@ function prepareAnimation(el, binding) {
 
 function addMagneticEffect(el, binding) {
   const strengthModifiers = {
-    weak: 0.5,
-    weaker: 0.75,
-    stronger: 1.5,
     strong: 2,
+    stronger: 1.5,
+    weaker: 0.75,
+    weak: 0.5,
   }
 
   const handleMouseMove = (e: MouseEvent) => {
@@ -230,10 +230,13 @@ function addMagneticEffect(el, binding) {
       const deltaX = e.clientX - centerX
       const deltaY = e.clientY - centerY
 
-      const strengthFactor
+      let strengthFactor
         = Object.entries(strengthModifiers).find(
           entry => binding.modifiers[entry[0]],
         )?.[1] || 1
+
+      const direction = binding.modifiers.refuse ? -1 : 1
+      if(binding.modifiers.refuse) strengthFactor = 4;
 
       const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2)
       const magneticDistance = ((width + height) / 2) * (strengthFactor / 1.5) // Distance for magnetic attraction
@@ -242,8 +245,8 @@ function addMagneticEffect(el, binding) {
       if (distance < magneticDistance) {
         const strength = 1 - distance / magneticDistance
         gsap.to(el, {
-          x: deltaX * strength * attractionStrength,
-          y: deltaY * strength * attractionStrength,
+          x: deltaX * strength * attractionStrength * direction,
+          y: deltaY * strength * attractionStrength * direction,
           duration: 0.2,
         })
       }
