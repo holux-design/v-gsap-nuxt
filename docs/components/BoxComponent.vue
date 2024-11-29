@@ -15,7 +15,7 @@
     </div>
 
     <div class="absolute top-2 left-4 text-white/80">
-      <pre>title</pre>
+      <pre>{{ title }}</pre>
     </div>
 
     <button

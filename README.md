@@ -7,7 +7,7 @@
 Install the module to your Nuxt application with one command:
 
 ```bash
-npx nuxi module add v-gsap
+npx nuxi module add v-gsap-nuxt
 ```
 
 That's it! You can now use My Module in your Nuxt app ✨

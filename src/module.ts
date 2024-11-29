@@ -8,7 +8,7 @@ export interface ModuleOptions {
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'v-gsap',
+    name: 'v-gsap-nuxt',
     configKey: 'vgsap',
     compatibility: {
       nuxt: '>=3.0.0',
