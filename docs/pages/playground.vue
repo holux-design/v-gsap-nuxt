@@ -3,6 +3,26 @@
     <h1>Playground</h1>
 
     <section>
+      <div class="header" id="realworld">
+        <h2>Real world examples</h2>
+      </div>
+      <div class="Grid !grid-cols-1 lg:!grid-cols-2">
+        <BoxComponent class="w-full">
+          <DemoParallax />
+        </BoxComponent>
+        
+        <img class="w-full object-contain" src="/snippets/DemoParallax.svg" />
+      </div>
+      <div class="Grid !grid-cols-1 lg:!grid-cols-2 mt-20">
+        <BoxComponent class="w-full">
+          <DemoCard />
+        </BoxComponent>
+        
+        <img class="w-full object-contain" src="/snippets/DemoCard.svg" />
+      </div>
+    </section>
+
+    <section>
       <div class="header" id="parallax">
         <h2>
           <pre>.parallax</pre>
@@ -340,6 +360,8 @@
         </BoxComponent>
       </div>
     </section>
+
+    <div class="h-[25vh]"></div>
   </div>
 </template>
 
