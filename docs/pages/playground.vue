@@ -28,6 +28,13 @@
           class="w-full"
         />
       </div>
+      <div class="Grid !grid-cols-1 lg:!grid-cols-2 mt-20" v-gsap.timeline.pinned="{ end: '+=1500px' }">
+        <DemoPinned />
+        <Snippet
+          name="DemoPinned"
+          class="w-full"
+        />
+      </div>
     </section>
 
     <section>
@@ -585,7 +592,7 @@ section {
   @apply my-8;
 
   div.header {
-    @apply w-full flex items-end justify-start gap-6;
+    @apply w-full flex flex-col md:flex-row items-end justify-start gap-6;
     @apply my-12;
 
     h2 {

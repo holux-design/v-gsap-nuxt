@@ -1,0 +1,4 @@
+[data-content-id="content:0.index.md"] .highlight-vue {
+	max-width: calc(100vw - (2 * var(--elements-container-padding-mobile)));
+	overflow: auto;
+}
