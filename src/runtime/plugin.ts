@@ -105,12 +105,12 @@ function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
   let order = startOrder || 0
 
   const getChildren = (vnode) => {
-    if (vnode?.children) return vnode?.children
-    if (vnode?.component?.subtree) return vnode?.ctx?.subtree
+    if (!!vnode?.children) return Array.from(vnode?.children)
+    if (!!vnode?.component?.subtree) return Array.from(vnode?.ctx?.subtree)
     return []
   }
 
-  getChildren(vnode)?.forEach((child: any) => {
+  (getChildren(vnode) || [])?.forEach((child: any) => {
     (child?.dirs ? Array.from(child?.dirs) : [])?.forEach((dir: any) => {
       dir.modifiers[`suggestedOrder-${order}`] = true
       order++
@@ -118,15 +118,6 @@ function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
     order = assignChildrenOrderAttributesFor(child, order)
   })
   return order
-
-  // let order = startOrder || 0;
-  // Array.from(el.children)?.forEach((child: any) => {
-  //   child.dataset.gsapOrder = order;
-  //   order++;
-
-  //   order = assignChildrenOrderAttributesFor(child, order);
-  // });
-  // return order;
 }
 
 function prepareTimeline(el, binding) {
