@@ -36,7 +36,7 @@ const snippets = {
   <h1 
     v-gsap.add.withPrevious.fromTo="[{ opacity: 0, y: 32 }, { opacity: 1, y: 0 }]"
     v-gsap.add.to="{ opacity: 0, y: -32 }">animation</h1>
-</section>`
+</section>`,
 }
 
 const html = await codeToHtml(snippets?.[props.name] || '', {

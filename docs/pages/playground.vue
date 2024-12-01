@@ -28,7 +28,10 @@
           class="w-full"
         />
       </div>
-      <div class="Grid !grid-cols-1 lg:!grid-cols-2 mt-20" v-gsap.timeline.pinned="{ end: '+=1500px' }">
+      <div
+        v-gsap.timeline.pinned="{ end: '+=1500px' }"
+        class="Grid !grid-cols-1 lg:!grid-cols-2 mt-20"
+      >
         <DemoPinned />
         <Snippet
           name="DemoPinned"
