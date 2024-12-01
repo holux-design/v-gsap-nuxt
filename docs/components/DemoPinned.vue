@@ -29,9 +29,9 @@
 section {
 }
 h1 {
-  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -mt-[8%];
   @apply w-[80%];
-  @apply font-bold text-white text-[4rem] leading-[110%] text-center;
+  @apply font-bold text-white text-[3rem] lg:text-[4rem] leading-[110%] text-center;
 
 	&:nth-child(2) {
 		@apply text-black;

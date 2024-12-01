@@ -595,7 +595,7 @@ section {
   @apply my-8;
 
   div.header {
-    @apply w-full flex flex-col md:flex-row items-end justify-start gap-6;
+    @apply w-full flex flex-col items-start justify-start md:flex-row md:items-end  gap-6;
     @apply my-12;
 
     h2 {
