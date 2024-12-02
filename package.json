@@ -22,6 +22,7 @@
     "prepack": "nuxt-module-build build",
     "prepare": "nuxt prepare",
     "dev:docs": "nuxi dev docs --host",
+    "dev:check": "npm run lint:fix && npm run test",
     "build:docs": "cd docs && npm i && cd .. && nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare docs &&  nuxi build docs",
     "prepare:docs": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare docs",
     "dev:playground": "nuxi dev playground",
