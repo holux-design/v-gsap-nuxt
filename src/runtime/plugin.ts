@@ -107,14 +107,14 @@ function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
   let order = startOrder || 0
 
   const getChildren = (vnode) => {
-    if (!!vnode?.children) return Array.from(vnode?.children)
-    if (!!vnode?.component?.subtree) return Array.from(vnode?.ctx?.subtree)
+    if (vnode?.children) return Array.from(vnode?.children)
+    if (vnode?.component?.subtree) return Array.from(vnode?.ctx?.subtree)
     return []
   }
 
   (getChildren(vnode) || [])?.forEach((child: any) => {
     (child?.dirs ? Array.from(child?.dirs) : [])?.forEach((dir: any) => {
-      if(dir.modifiers.timeline) return;
+      if (dir.modifiers.timeline) return
 
       dir.modifiers[`suggestedOrder-${order}`] = true
       order++
