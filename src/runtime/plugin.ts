@@ -55,8 +55,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       let timeline
 
       // Refresh scrollTrigger from .timeline after all has mounted
-      if (binding.modifiers.timeline)
+      if (binding.modifiers.timeline) {
         globalTimelines[el.dataset.gsapId]?.scrollTrigger?.refresh()
+        ScrollTrigger?.normalizeScroll(true)
+      }
       else {
         // All directives that are not .timeline
 
@@ -112,6 +114,8 @@ function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
 
   (getChildren(vnode) || [])?.forEach((child: any) => {
     (child?.dirs ? Array.from(child?.dirs) : [])?.forEach((dir: any) => {
+      if(dir.modifiers.timeline) return;
+
       dir.modifiers[`suggestedOrder-${order}`] = true
       order++
     })
