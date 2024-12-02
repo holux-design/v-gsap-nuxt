@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.1.3
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.1.2...v1.1.3)
+
+### 🩹 Fixes
+
+- .pinned not working correctly on mobile (ios) ([7839c2e](https://github.com/holux-design/v-gsap-nuxt/commit/7839c2e))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.1.2
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.1.1...v1.1.2)
