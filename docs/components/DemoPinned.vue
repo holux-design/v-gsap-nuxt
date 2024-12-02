@@ -4,7 +4,7 @@
   >
     <section>
       <div
-        v-gsap.add.to="{ width: '800px' }"
+        v-gsap.add.to="{ width: '800px', backgroundColor: `rgb(34 197 94)` }"
         class="Dot"
       />
       <h1
@@ -39,7 +39,9 @@ h1 {
 }
 
 .Dot {
-  @apply w-[100px] aspect-square rounded-full bg-green-500;
+  @apply w-[100px] aspect-square rounded-full border;
+  @apply bg-neutral-200 border-neutral-300;
+  @apply dark:bg-neutral-600 dark:border-neutral-500;
   @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
   @apply flex items-center justify-center;
 }

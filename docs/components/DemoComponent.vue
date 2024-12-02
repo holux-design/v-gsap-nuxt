@@ -1,7 +1,6 @@
 <template>
   <button
     type="button"
-    class="z-[0] dark:text-green-950 text-green-900 !bg-gradient-to-r dark:from-green-700 dark:to-green-600 from-green-500 to-green-400  shadow-2xl dark:shadow-black shadow-green-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
   >
     {{ text || 'Hello World' }}
   </button>
@@ -15,3 +14,11 @@ withDefaults(
   {},
 )
 </script>
+
+<style lang="scss" scoped>
+button {
+  @apply z-[0] shadow-2xl font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none border;
+  @apply bg-neutral-300 border-neutral-400;
+  @apply dark:bg-neutral-700 dark:border-neutral-500;
+}
+</style>
