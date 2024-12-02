@@ -21,7 +21,7 @@
   "scripts": {
     "prepack": "nuxt-module-build build",
     "prepare": "nuxt prepare",
-    "dev:docs": "nuxi dev docs",
+    "dev:docs": "nuxi dev docs --host",
     "build:docs": "cd docs && npm i && cd .. && nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare docs &&  nuxi build docs",
     "prepare:docs": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare docs",
     "dev:playground": "nuxi dev playground",
