@@ -15,6 +15,12 @@ type TIMELINE_OPTIONS = {
     markers?: boolean
     toggleActions?: string
     pin?: boolean
+    pinSpacing?: string
+    onUpdate?: any
+    onEnter?: any
+    onEnterBack?: any
+    onLeave?: any
+    onLeaveBack?: any
   }
   repeat?: number
 }
@@ -127,6 +133,8 @@ function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
 function prepareTimeline(el, binding) {
   const timelineOptions: TIMELINE_OPTIONS = {}
 
+  const callbacks = prepareCallbacks(binding)
+
   // Prepare ScrollTrigger if .whenVisible. modifier is present
   // You can overwrite scrollTrigger Props in the value of the directive
   // .once.
@@ -142,6 +150,7 @@ function prepareTimeline(el, binding) {
       start: binding.value?.start ?? 'top 90%',
       end: binding.value?.end ?? 'top 50%',
       scrub,
+      ...callbacks
     }
   }
 
@@ -156,6 +165,7 @@ function prepareTimeline(el, binding) {
       scrub,
       pin: true,
       pinSpacing: 'margin',
+      ...callbacks
     }
   }
 
@@ -165,6 +175,7 @@ function prepareTimeline(el, binding) {
       start: `top bottom`,
       end: `bottom top`,
       scrub: true,
+      ...callbacks
     }
   }
 
@@ -281,6 +292,26 @@ function prepareTimeline(el, binding) {
   }
 
   return timeline
+}
+
+type CALLBACKS = {
+  onUpdate?: any;
+  onEnter?: any;
+  onEnterBack?: any;
+  onLeave?: any;
+  onLeaveBack?: any;
+}
+
+function prepareCallbacks(binding):CALLBACKS {
+  const callbacks:CALLBACKS = {}
+
+  if(binding.modifiers.onUpdate) callbacks.onUpdate = binding.value;
+  if(binding.modifiers.onEnter) callbacks.onEnter = binding.value;
+  if(binding.modifiers.onEnterBack) callbacks.onEnterBack = binding.value;
+  if(binding.modifiers.onLeave) callbacks.onLeave = binding.value;
+  if(binding.modifiers.onLeaveBack) callbacks.onLeaveBack = binding.value;
+
+  return callbacks;
 }
 
 function addMagneticEffect(el, binding) {
