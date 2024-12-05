@@ -150,7 +150,7 @@ function prepareTimeline(el, binding) {
       start: binding.value?.start ?? 'top 90%',
       end: binding.value?.end ?? 'top 50%',
       scrub,
-      ...callbacks
+      ...callbacks,
     }
   }
 
@@ -165,7 +165,7 @@ function prepareTimeline(el, binding) {
       scrub,
       pin: true,
       pinSpacing: 'margin',
-      ...callbacks
+      ...callbacks,
     }
   }
 
@@ -175,7 +175,7 @@ function prepareTimeline(el, binding) {
       start: `top bottom`,
       end: `bottom top`,
       scrub: true,
-      ...callbacks
+      ...callbacks,
     }
   }
 
@@ -295,23 +295,23 @@ function prepareTimeline(el, binding) {
 }
 
 type CALLBACKS = {
-  onUpdate?: any;
-  onEnter?: any;
-  onEnterBack?: any;
-  onLeave?: any;
-  onLeaveBack?: any;
+  onUpdate?: any
+  onEnter?: any
+  onEnterBack?: any
+  onLeave?: any
+  onLeaveBack?: any
 }
 
-function prepareCallbacks(binding):CALLBACKS {
-  const callbacks:CALLBACKS = {}
+function prepareCallbacks(binding): CALLBACKS {
+  const callbacks: CALLBACKS = {}
 
-  if(binding.modifiers.onUpdate) callbacks.onUpdate = binding.value;
-  if(binding.modifiers.onEnter) callbacks.onEnter = binding.value;
-  if(binding.modifiers.onEnterBack) callbacks.onEnterBack = binding.value;
-  if(binding.modifiers.onLeave) callbacks.onLeave = binding.value;
-  if(binding.modifiers.onLeaveBack) callbacks.onLeaveBack = binding.value;
+  if (binding.modifiers.onUpdate) callbacks.onUpdate = binding.value
+  if (binding.modifiers.onEnter) callbacks.onEnter = binding.value
+  if (binding.modifiers.onEnterBack) callbacks.onEnterBack = binding.value
+  if (binding.modifiers.onLeave) callbacks.onLeave = binding.value
+  if (binding.modifiers.onLeaveBack) callbacks.onLeaveBack = binding.value
 
-  return callbacks;
+  return callbacks
 }
 
 function addMagneticEffect(el, binding) {
