@@ -144,6 +144,7 @@ function prepareTimeline(el, binding) {
     ?? binding.value?.[1]?.scrub
     ?? (once == true ? false : undefined)
     ?? true
+  const markers = binding.modifiers.markers;
   if (binding.modifiers.whenVisible) {
     timelineOptions.scrollTrigger = {
       trigger: el,
@@ -151,6 +152,7 @@ function prepareTimeline(el, binding) {
       end: binding.value?.end ?? 'top 50%',
       scrub,
       ...callbacks,
+      markers
     }
   }
 
@@ -166,6 +168,7 @@ function prepareTimeline(el, binding) {
       pin: true,
       pinSpacing: 'margin',
       ...callbacks,
+      markers
     }
   }
 
@@ -176,10 +179,10 @@ function prepareTimeline(el, binding) {
       end: `bottom top`,
       scrub: true,
       ...callbacks,
+      markers
     }
   }
 
-  if (binding.modifiers.markers) timelineOptions.scrollTrigger!.markers = true
   if (!once && binding.modifiers.parallax)
     timelineOptions.scrollTrigger!.toggleActions = 'restart none none reverse'
 
