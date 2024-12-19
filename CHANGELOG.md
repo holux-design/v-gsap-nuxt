@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v1.1.4
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.1.3...v1.1.4)
+
+### 🩹 Fixes
+
+- Mobile startpage breaking due to overlong code snippet ([69748e4](https://github.com/holux-design/v-gsap-nuxt/commit/69748e4))
+- Lint ([82f8da8](https://github.com/holux-design/v-gsap-nuxt/commit/82f8da8))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.1.3
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.1.2...v1.1.3)
