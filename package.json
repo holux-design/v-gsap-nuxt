@@ -1,6 +1,6 @@
 {
   "name": "v-gsap-nuxt",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "GSAP Directive for Nuxt 3",
   "repository": "holux-design/v-gsap-nuxt",
   "homepage": "https://v-gsap-nuxt.vercel.app",

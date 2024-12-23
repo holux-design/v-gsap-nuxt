@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.1.5
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.1.4...v1.1.5)
+
+### 💅 Refactors
+
+- Feature "scroller" // add to docs // add global config ([e923c27](https://github.com/holux-design/v-gsap-nuxt/commit/e923c27))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.1.4
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.1.3...v1.1.4)
