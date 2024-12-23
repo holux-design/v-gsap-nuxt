@@ -53,7 +53,11 @@ export default defineNuxtPlugin((nuxtApp) => {
         if (!timelineShouldBeActive(binding, configOptions)) return
         assignChildrenOrderAttributesFor(vnode)
 
-        globalTimelines[el.dataset.gsapId] = prepareTimeline(el, binding)
+        globalTimelines[el.dataset.gsapId] = prepareTimeline(
+          el,
+          binding,
+          configOptions,
+        )
         el.dataset.gsapTimeline = true
       }
     },
@@ -72,7 +76,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         if (binding.modifiers.magnetic) return addMagneticEffect(el, binding)
 
         if (timelineShouldBeActive(binding, configOptions))
-          timeline = prepareTimeline(el, binding)
+          timeline = prepareTimeline(el, binding, configOptions)
 
         if (binding.modifiers.add) {
           let order
@@ -92,7 +96,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         if (!timelineShouldBeActive(binding, configOptions) && !!timeline)
           timeline = resetAndKillTimeline(timeline)
         if (timelineShouldBeActive(binding, configOptions) && !timeline)
-          timeline = prepareTimeline(el, binding)
+          timeline = prepareTimeline(el, binding, configOptions)
       })
     },
 
@@ -133,7 +137,7 @@ function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
   return order
 }
 
-function prepareTimeline(el, binding) {
+function prepareTimeline(el, binding, configOptions) {
   const timelineOptions: TIMELINE_OPTIONS = {}
 
   const callbacks = prepareCallbacks(binding)
@@ -142,6 +146,12 @@ function prepareTimeline(el, binding) {
   // You can overwrite scrollTrigger Props in the value of the directive
   // .once.
   const once = binding.modifiers.call ?? binding.modifiers.once
+  const scroller
+    = configOptions?.scroller
+    || binding.value?.scroller
+    || binding.value?.[0]?.scroller
+    || binding.value?.[1]?.scroller
+    || undefined
   const scrub
     = binding.value?.scrub
     ?? binding.value?.[1]?.scrub
@@ -153,7 +163,7 @@ function prepareTimeline(el, binding) {
       trigger: el,
       start: binding.value?.start ?? 'top 90%',
       end: binding.value?.end ?? 'top 50%',
-      scroller: binding.value?.scroller,
+      scroller,
       scrub,
       ...callbacks,
       markers,
@@ -166,7 +176,7 @@ function prepareTimeline(el, binding) {
       trigger: el,
       start: binding.value?.start ?? 'center center',
       end,
-      scroller: binding.value?.scroller,
+      scroller,
       scrub,
       pin: true,
       pinSpacing: 'margin',
@@ -180,7 +190,7 @@ function prepareTimeline(el, binding) {
       trigger: el,
       start: `top bottom`,
       end: `bottom top`,
-      scroller: binding.value?.scroller,
+      scroller,
       scrub: true,
       ...callbacks,
       markers,
