@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v1.1.7
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.1.6...v1.1.7)
+
+### 🩹 Fixes
+
+- Lints ([76e49dd](https://github.com/holux-design/v-gsap-nuxt/commit/76e49dd))
+- Typo in docs ([bfef697](https://github.com/holux-design/v-gsap-nuxt/commit/bfef697))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.1.6
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.1.5...v1.1.6)
