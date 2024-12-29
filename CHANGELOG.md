@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.1.9
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.1.8...v1.1.9)
+
+### 🩹 Fixes
+
+- Gsap context adding ([3282dc0](https://github.com/holux-design/v-gsap-nuxt/commit/3282dc0))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.1.8
 
 - reverse `.once` on upscroll (allows for being played every time the element
