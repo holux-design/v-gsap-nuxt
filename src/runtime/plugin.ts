@@ -65,7 +65,7 @@ export default defineNuxtPlugin(nuxtApp => {
         )
         el.dataset.gsapTimeline = true
 
-        gsapContext.add(globalTimelines[el.dataset.gsapId])
+        gsapContext.add(() => globalTimelines[el.dataset.gsapId])
       }
     },
 
@@ -98,7 +98,7 @@ export default defineNuxtPlugin(nuxtApp => {
         }
       }
 
-      gsapContext.add(timeline)
+      gsapContext.add(() => timeline)
       resizeListener = window.addEventListener('resize', () => {
         if (!timelineShouldBeActive(binding, configOptions) && !!timeline)
           timeline = resetAndKillTimeline(timeline)
