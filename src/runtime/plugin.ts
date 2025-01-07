@@ -1,10 +1,11 @@
 import Draggable from 'gsap/Draggable'
-import TextPlugin from 'gsap/TextPlugin'
 import { gsap, ScrollTrigger, ScrollToPlugin } from 'gsap/all'
+import TextPlugin from 'gsap/TextPlugin'
 import { uuidv4 } from './utils/utils'
 import { entrancePresets } from './utils/entrance-presets'
 import type { Preset } from './types/Preset'
-import { defineNuxtPlugin, useRuntimeConfig } from '#app'
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, Draggable, TextPlugin)
 
 type ANIMATION_TYPES = 'from' | 'to' | 'set' | 'fromTo' | 'call'
 
@@ -30,89 +31,88 @@ type TIMELINE_OPTIONS = {
 
 const globalTimelines = {}
 
-export default defineNuxtPlugin((nuxtApp) => {
-  const configOptions = useRuntimeConfig().public.vgsap
-  const gsapContext: gsap.Context = gsap.context(() => {})
+export const vGsapDirective = (
+  appType: 'nuxt' | 'vue',
+  configOptions,
+  gsapContext,
+  resizeListener,
+) => ({
+  getSSRProps: (binding) => {
+    binding = loadPreset(binding, configOptions)
 
-  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, Draggable, TextPlugin)
-  let resizeListener
+    return {
+      'style': {
+        opacity: binding.modifiers.fromInvisible ? '0' : '1',
+      },
+      'data-gsap-id': uuidv4(),
+    }
+  },
 
-  nuxtApp.vueApp.directive('gsap', {
-    getSSRProps: (binding) => {
-      binding = loadPreset(binding, configOptions)
+  beforeMount(el, binding, vnode) {
+    if (appType == 'vue') el.dataset.gsapId = uuidv4()
+    if (!gsapContext) gsapContext = gsap.context(() => {})
 
-      return {
-        'style': {
-          opacity: binding.modifiers.fromInvisible ? '0' : '1',
-        },
-        'data-gsap-id': uuidv4(),
+    binding = loadPreset(binding, configOptions)
+
+    // .timeline => Prepare before children get mounted
+    // Add data-gsap-order to children for animation steps (otherwise children get mounted first and then bottom-up)
+    if (binding.modifiers.timeline) {
+      if (!timelineShouldBeActive(binding, configOptions)) return
+      assignChildrenOrderAttributesFor(vnode)
+
+      globalTimelines[el.dataset.gsapId] = prepareTimeline(
+        el,
+        binding,
+        configOptions,
+      )
+      el.dataset.gsapTimeline = true
+
+      gsapContext.add(() => globalTimelines[el.dataset.gsapId])
+    }
+  },
+
+  mounted(el, binding) {
+    let timeline
+
+    // Refresh scrollTrigger from .timeline after all has mounted
+    if (binding.modifiers.timeline) {
+      globalTimelines[el.dataset.gsapId]?.scrollTrigger?.refresh()
+      ScrollTrigger?.normalizeScroll(true)
+    }
+    else {
+      // All directives that are not .timeline
+
+      if (binding.modifiers.magnetic) return addMagneticEffect(el, binding)
+
+      if (timelineShouldBeActive(binding, configOptions))
+        timeline = prepareTimeline(el, binding, configOptions)
+
+      if (binding.modifiers.add) {
+        let order
+          = getValueFromModifier(binding, 'order-')
+          || getValueFromModifier(binding, 'suggestedOrder-')
+        if (binding.modifiers.withPrevious) order = '<'
+
+        if (!el.closest(`[data-gsap-timeline="true"]`)?.dataset?.gsapId) return
+        globalTimelines[
+          el.closest(`[data-gsap-timeline="true"]`).dataset.gsapId
+        ]?.add(timeline, order)
       }
-    },
+    }
 
-    beforeMount(el, binding, vnode) {
-      binding = loadPreset(binding, configOptions)
+    gsapContext.add(() => timeline)
+    resizeListener = window.addEventListener('resize', () => {
+      if (!timelineShouldBeActive(binding, configOptions) && !!timeline)
+        timeline = resetAndKillTimeline(timeline)
+      if (timelineShouldBeActive(binding, configOptions) && !timeline)
+        timeline = prepareTimeline(el, binding, configOptions)
+    })
+  },
 
-      // .timeline => Prepare before children get mounted
-      // Add data-gsap-order to children for animation steps (otherwise children get mounted first and then bottom-up)
-      if (binding.modifiers.timeline) {
-        if (!timelineShouldBeActive(binding, configOptions)) return
-        assignChildrenOrderAttributesFor(vnode)
-
-        globalTimelines[el.dataset.gsapId] = prepareTimeline(
-          el,
-          binding,
-          configOptions,
-        )
-        el.dataset.gsapTimeline = true
-
-        gsapContext.add(() => globalTimelines[el.dataset.gsapId])
-      }
-    },
-
-    mounted(el, binding) {
-      let timeline
-
-      // Refresh scrollTrigger from .timeline after all has mounted
-      if (binding.modifiers.timeline) {
-        globalTimelines[el.dataset.gsapId]?.scrollTrigger?.refresh()
-        ScrollTrigger?.normalizeScroll(true)
-      }
-      else {
-        // All directives that are not .timeline
-
-        if (binding.modifiers.magnetic) return addMagneticEffect(el, binding)
-
-        if (timelineShouldBeActive(binding, configOptions))
-          timeline = prepareTimeline(el, binding, configOptions)
-
-        if (binding.modifiers.add) {
-          let order
-            = getValueFromModifier(binding, 'order-')
-            || getValueFromModifier(binding, 'suggestedOrder-')
-          if (binding.modifiers.withPrevious) order = '<'
-
-          if (!el.closest(`[data-gsap-timeline="true"]`)?.dataset?.gsapId)
-            return
-          globalTimelines[
-            el.closest(`[data-gsap-timeline="true"]`).dataset.gsapId
-          ]?.add(timeline, order)
-        }
-      }
-
-      gsapContext.add(() => timeline)
-      resizeListener = window.addEventListener('resize', () => {
-        if (!timelineShouldBeActive(binding, configOptions) && !!timeline)
-          timeline = resetAndKillTimeline(timeline)
-        if (timelineShouldBeActive(binding, configOptions) && !timeline)
-          timeline = prepareTimeline(el, binding, configOptions)
-      })
-    },
-
-    unmounted() {
-      gsapContext.revert()
-      removeEventListener('resize', resizeListener)
-    },
-  })
+  unmounted() {
+    gsapContext.revert()
+    removeEventListener('resize', resizeListener)
+  },
 })
 
 function timelineShouldBeActive(binding, configOptions) {
@@ -269,7 +269,7 @@ function prepareTimeline(el, binding, configOptions) {
     if (binding.modifiers.stagger) values[1].stagger = stagger
     if (binding.modifiers.fromInvisible)
       values[1].opacity = values[1].opacity || 1
-    timeline.fromTo(el, ...binding.value)
+    timeline.fromTo(el, binding.value?.[0], binding.value?.[1])
   }
 
   // .animateText. // .slow // .fast
@@ -310,7 +310,7 @@ function prepareTimeline(el, binding, configOptions) {
   if (binding.modifiers.draggable) {
     const type = Object.keys(binding.modifiers).find(modifier =>
       ['x', 'y', 'rotation'].includes(modifier),
-    )
+    ) as Draggable.DraggableType
     Draggable.create(el, {
       type,
       bounds: binding.value || el.parentElement,
