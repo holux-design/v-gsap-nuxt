@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.2.0
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.1.9...v1.2.0)
+
+### 🚀 Enhancements
+
+- **vue:** Separate plugin code from defineNuxtPlugin ([e36c6d2](https://github.com/holux-design/v-gsap-nuxt/commit/e36c6d2))
+- **vue:** Add vue plugin function ([7632a05](https://github.com/holux-design/v-gsap-nuxt/commit/7632a05))
+
+### 🩹 Fixes
+
+- **vue:** Linting tips ([a03112b](https://github.com/holux-design/v-gsap-nuxt/commit/a03112b))
+- **vue:** Re-init gsap context inside separated directive ([673ac26](https://github.com/holux-design/v-gsap-nuxt/commit/673ac26))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.1.9
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.1.8...v1.1.9)
