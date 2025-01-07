@@ -1,10 +1,11 @@
 import Draggable from 'gsap/Draggable'
-import TextPlugin from 'gsap/TextPlugin'
 import { gsap, ScrollTrigger, ScrollToPlugin } from 'gsap/all'
 import { uuidv4 } from './utils/utils'
 import { entrancePresets } from './utils/entrance-presets'
 import type { Preset } from './types/Preset'
-import { defineNuxtPlugin, useRuntimeConfig } from '#app'
+import TextPlugin from 'gsap/TextPlugin'
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, Draggable, TextPlugin)
 
 type ANIMATION_TYPES = 'from' | 'to' | 'set' | 'fromTo' | 'call'
 
@@ -30,89 +31,86 @@ type TIMELINE_OPTIONS = {
 
 const globalTimelines = {}
 
-export default defineNuxtPlugin((nuxtApp) => {
-  const configOptions = useRuntimeConfig().public.vgsap
-  const gsapContext: gsap.Context = gsap.context(() => {})
+export const vGsapDirective = (
+  appType: 'nuxt' | 'vue',
+  configOptions,
+  gsapContext,
+  resizeListener,
+) => ({
+  getSSRProps: binding => {
+    binding = loadPreset(binding, configOptions)
 
-  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, Draggable, TextPlugin)
-  let resizeListener
+    return {
+      style: {
+        opacity: binding.modifiers.fromInvisible ? '0' : '1',
+      },
+      'data-gsap-id': uuidv4(),
+    }
+  },
 
-  nuxtApp.vueApp.directive('gsap', {
-    getSSRProps: (binding) => {
-      binding = loadPreset(binding, configOptions)
+  beforeMount(el, binding, vnode) {
+    if (appType == 'vue') el.dataset.gsapId = uuidv4()
 
-      return {
-        'style': {
-          opacity: binding.modifiers.fromInvisible ? '0' : '1',
-        },
-        'data-gsap-id': uuidv4(),
+    binding = loadPreset(binding, configOptions)
+
+    // .timeline => Prepare before children get mounted
+    // Add data-gsap-order to children for animation steps (otherwise children get mounted first and then bottom-up)
+    if (binding.modifiers.timeline) {
+      if (!timelineShouldBeActive(binding, configOptions)) return
+      assignChildrenOrderAttributesFor(vnode)
+
+      globalTimelines[el.dataset.gsapId] = prepareTimeline(
+        el,
+        binding,
+        configOptions,
+      )
+      el.dataset.gsapTimeline = true
+
+      gsapContext.add(() => globalTimelines[el.dataset.gsapId])
+    }
+  },
+
+  mounted(el, binding) {
+    let timeline
+
+    // Refresh scrollTrigger from .timeline after all has mounted
+    if (binding.modifiers.timeline) {
+      globalTimelines[el.dataset.gsapId]?.scrollTrigger?.refresh()
+      ScrollTrigger?.normalizeScroll(true)
+    } else {
+      // All directives that are not .timeline
+
+      if (binding.modifiers.magnetic) return addMagneticEffect(el, binding)
+
+      if (timelineShouldBeActive(binding, configOptions))
+        timeline = prepareTimeline(el, binding, configOptions)
+
+      if (binding.modifiers.add) {
+        let order =
+          getValueFromModifier(binding, 'order-') ||
+          getValueFromModifier(binding, 'suggestedOrder-')
+        if (binding.modifiers.withPrevious) order = '<'
+
+        if (!el.closest(`[data-gsap-timeline="true"]`)?.dataset?.gsapId) return
+        globalTimelines[
+          el.closest(`[data-gsap-timeline="true"]`).dataset.gsapId
+        ]?.add(timeline, order)
       }
-    },
+    }
 
-    beforeMount(el, binding, vnode) {
-      binding = loadPreset(binding, configOptions)
+    gsapContext.add(() => timeline)
+    resizeListener = window.addEventListener('resize', () => {
+      if (!timelineShouldBeActive(binding, configOptions) && !!timeline)
+        timeline = resetAndKillTimeline(timeline)
+      if (timelineShouldBeActive(binding, configOptions) && !timeline)
+        timeline = prepareTimeline(el, binding, configOptions)
+    })
+  },
 
-      // .timeline => Prepare before children get mounted
-      // Add data-gsap-order to children for animation steps (otherwise children get mounted first and then bottom-up)
-      if (binding.modifiers.timeline) {
-        if (!timelineShouldBeActive(binding, configOptions)) return
-        assignChildrenOrderAttributesFor(vnode)
-
-        globalTimelines[el.dataset.gsapId] = prepareTimeline(
-          el,
-          binding,
-          configOptions,
-        )
-        el.dataset.gsapTimeline = true
-
-        gsapContext.add(() => globalTimelines[el.dataset.gsapId])
-      }
-    },
-
-    mounted(el, binding) {
-      let timeline
-
-      // Refresh scrollTrigger from .timeline after all has mounted
-      if (binding.modifiers.timeline) {
-        globalTimelines[el.dataset.gsapId]?.scrollTrigger?.refresh()
-        ScrollTrigger?.normalizeScroll(true)
-      }
-      else {
-        // All directives that are not .timeline
-
-        if (binding.modifiers.magnetic) return addMagneticEffect(el, binding)
-
-        if (timelineShouldBeActive(binding, configOptions))
-          timeline = prepareTimeline(el, binding, configOptions)
-
-        if (binding.modifiers.add) {
-          let order
-            = getValueFromModifier(binding, 'order-')
-            || getValueFromModifier(binding, 'suggestedOrder-')
-          if (binding.modifiers.withPrevious) order = '<'
-
-          if (!el.closest(`[data-gsap-timeline="true"]`)?.dataset?.gsapId)
-            return
-          globalTimelines[
-            el.closest(`[data-gsap-timeline="true"]`).dataset.gsapId
-          ]?.add(timeline, order)
-        }
-      }
-
-      gsapContext.add(() => timeline)
-      resizeListener = window.addEventListener('resize', () => {
-        if (!timelineShouldBeActive(binding, configOptions) && !!timeline)
-          timeline = resetAndKillTimeline(timeline)
-        if (timelineShouldBeActive(binding, configOptions) && !timeline)
-          timeline = prepareTimeline(el, binding, configOptions)
-      })
-    },
-
-    unmounted() {
-      gsapContext.revert()
-      removeEventListener('resize', resizeListener)
-    },
-  })
+  unmounted() {
+    gsapContext.revert()
+    removeEventListener('resize', resizeListener)
+  },
 })
 
 function timelineShouldBeActive(binding, configOptions) {
@@ -127,7 +125,7 @@ function timelineShouldBeActive(binding, configOptions) {
 function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
   let order = startOrder || 0
 
-  const getChildren = (vnode) => {
+  const getChildren = vnode => {
     if (vnode?.children) return Array.from(vnode?.children)
     if (vnode?.component?.subtree) return Array.from(vnode?.ctx?.subtree)
     return []
@@ -154,17 +152,17 @@ function prepareTimeline(el, binding, configOptions) {
   // You can overwrite scrollTrigger Props in the value of the directive
   // .once.
   const once = binding.modifiers.call ?? binding.modifiers.once
-  const scroller
-    = configOptions?.scroller
-    || binding.value?.scroller
-    || binding.value?.[0]?.scroller
-    || binding.value?.[1]?.scroller
-    || undefined
-  const scrub
-    = binding.value?.scrub
-    ?? binding.value?.[1]?.scrub
-    ?? (once == true ? false : undefined)
-    ?? true
+  const scroller =
+    configOptions?.scroller ||
+    binding.value?.scroller ||
+    binding.value?.[0]?.scroller ||
+    binding.value?.[1]?.scroller ||
+    undefined
+  const scrub =
+    binding.value?.scrub ??
+    binding.value?.[1]?.scrub ??
+    (once == true ? false : undefined) ??
+    true
   const markers = binding.modifiers.markers
   if (binding.modifiers.whenVisible) {
     timelineOptions.scrollTrigger = {
@@ -282,8 +280,8 @@ function prepareTimeline(el, binding, configOptions) {
       slow: 0.5,
       fast: 10,
     }
-    const speed
-      = speeds[
+    const speed =
+      speeds[
         Object.keys(binding.modifiers).find(modifier =>
           Object.keys(speeds).includes(modifier),
         ) || ''
@@ -356,8 +354,8 @@ function addMagneticEffect(el, binding) {
       const deltaX = e.clientX - centerX
       const deltaY = e.clientY - centerY
 
-      let strengthFactor
-        = Object.entries(strengthModifiers).find(
+      let strengthFactor =
+        Object.entries(strengthModifiers).find(
           entry => binding.modifiers[entry[0]],
         )?.[1] || 1
 
@@ -375,8 +373,7 @@ function addMagneticEffect(el, binding) {
           y: deltaY * strength * attractionStrength * direction,
           duration: 0.2,
         })
-      }
-      else {
+      } else {
         gsap.to(el, {
           x: 0,
           y: 0,
