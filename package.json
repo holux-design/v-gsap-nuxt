@@ -11,6 +11,10 @@
       "types": "./dist/types.d.ts",
       "import": "./dist/module.mjs",
       "require": "./dist/module.cjs"
+    },
+    "./vue": {
+      "import": "./dist/runtime/vue.js",
+      "types": "./dist/runtime/vue.d.ts"
     }
   },
   "main": "./dist/module.cjs",
