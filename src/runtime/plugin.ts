@@ -50,6 +50,7 @@ export const vGsapDirective = (
 
   beforeMount(el, binding, vnode) {
     if (appType == 'vue') el.dataset.gsapId = uuidv4()
+    if (!gsapContext) gsapContext = gsap.context(() => {})
 
     binding = loadPreset(binding, configOptions)
 

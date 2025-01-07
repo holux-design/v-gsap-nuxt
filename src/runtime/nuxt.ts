@@ -9,8 +9,8 @@ export default defineNuxtPlugin((nuxtApp) => {
     'gsap',
     vGsapDirective(
       'nuxt',
-      useRuntimeConfig().public.vgsap,
-      gsap.context(() => {}),
+      useRuntimeConfig().public.vgsap ?? {},
+      null,
       resizeListener,
     ),
   )
