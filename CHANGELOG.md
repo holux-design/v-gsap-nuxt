@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.2.1
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.2.0...v1.2.1)
+
+### 🩹 Fixes
+
+- **vue:** Add export to package.json for /vue ([21f2c36](https://github.com/holux-design/v-gsap-nuxt/commit/21f2c36))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.2.0
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.1.9...v1.2.0)
