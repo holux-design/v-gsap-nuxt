@@ -267,7 +267,7 @@ function prepareTimeline(el, binding, configOptions) {
     if (binding.modifiers.stagger) values[1].stagger = stagger
     if (binding.modifiers.fromInvisible)
       values[1].opacity = values[1].opacity || 1
-    timeline.fromTo(el, ...binding.value)
+    timeline.fromTo(el, binding.value?.[0], binding.value?.[1])
   }
 
   // .animateText. // .slow // .fast
@@ -308,7 +308,7 @@ function prepareTimeline(el, binding, configOptions) {
   if (binding.modifiers.draggable) {
     const type = Object.keys(binding.modifiers).find(modifier =>
       ['x', 'y', 'rotation'].includes(modifier),
-    )
+    ) as Draggable.DraggableType
     Draggable.create(el, {
       type,
       bounds: binding.value || el.parentElement,
