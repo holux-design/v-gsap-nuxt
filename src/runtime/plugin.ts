@@ -50,7 +50,7 @@ export const vGsapDirective = (
 
   beforeMount(el, binding, vnode) {
     if (appType == 'vue') el.dataset.gsapId = uuidv4()
-    if (!gsapContext) gsapContext = gsap.context(() => {})
+    if (!gsapContext) gsapContext = gsap.context(() => { })
 
     binding = loadPreset(binding, configOptions)
 
@@ -133,39 +133,41 @@ function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
     return []
   }
 
-  ;(getChildren(vnode) || [])?.forEach((child: any) => {
-    ;(child?.dirs ? Array.from(child?.dirs) : [])?.forEach((dir: any) => {
-      if (dir.modifiers.timeline) return
+    ; (getChildren(vnode) || [])?.forEach((child: any) => {
+      ; (child?.dirs ? Array.from(child?.dirs) : [])?.forEach((dir: any) => {
+        if (dir.modifiers.timeline) return
 
-      dir.modifiers[`suggestedOrder-${order}`] = true
-      order++
+        dir.modifiers[`suggestedOrder-${order}`] = true
+        order++
+      })
+      order = assignChildrenOrderAttributesFor(child, order)
     })
-    order = assignChildrenOrderAttributesFor(child, order)
-  })
   return order
 }
 
 function prepareTimeline(el, binding, configOptions) {
   const timelineOptions: TIMELINE_OPTIONS = {}
-
   const callbacks = prepareCallbacks(binding)
 
-  // Prepare ScrollTrigger if .whenVisible. modifier is present
-  // You can overwrite scrollTrigger Props in the value of the directive
-  // .once.
   const once = binding.modifiers.call ?? binding.modifiers.once
-  const scroller
-    = configOptions?.scroller
+  const oneshot = binding.modifiers.oneshot
+
+  // Prevent using both modifiers together
+  if (once && oneshot) {
+    console.warn('Cannot use .once and .oneshot together. Defaulting to .oneshot')
+  }
+
+  const scroller = configOptions?.scroller
     || binding.value?.scroller
     || binding.value?.[0]?.scroller
     || binding.value?.[1]?.scroller
     || undefined
-  const scrub
-    = binding.value?.scrub
+  const scrub = binding.value?.scrub
     ?? binding.value?.[1]?.scrub
-    ?? (once == true ? false : undefined)
+    ?? ((once || oneshot) ? false : undefined)
     ?? true
   const markers = binding.modifiers.markers
+
   if (binding.modifiers.whenVisible) {
     timelineOptions.scrollTrigger = {
       trigger: el,
@@ -175,7 +177,9 @@ function prepareTimeline(el, binding, configOptions) {
       scrub,
       ...callbacks,
       markers,
-      toggleActions: once ? 'play none none reverse' : undefined,
+      toggleActions: (once && !oneshot) ? 'play none none reverse'
+        : oneshot ? 'play none none none'
+          : undefined,
     }
   }
 
@@ -284,9 +288,9 @@ function prepareTimeline(el, binding, configOptions) {
     }
     const speed
       = speeds[
-        Object.keys(binding.modifiers).find(modifier =>
-          Object.keys(speeds).includes(modifier),
-        ) || ''
+      Object.keys(binding.modifiers).find(modifier =>
+        Object.keys(speeds).includes(modifier),
+      ) || ''
       ] || 2
     timeline.to(el, { text: { value, speed } })
   }
