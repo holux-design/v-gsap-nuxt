@@ -241,7 +241,7 @@
             v-gsap.whenVisible.once.from="{
               autoAlpha: 0,
               rotate: -45,
-              duration: 2
+              duration: 2,
             }"
           />
         </BoxComponent>
@@ -253,7 +253,7 @@
             v-gsap.whenVisible.once.reversible.from="{
               autoAlpha: 0,
               rotate: -45,
-              duration: 2
+              duration: 2,
             }"
           />
         </BoxComponent>

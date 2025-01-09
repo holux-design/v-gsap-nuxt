@@ -134,14 +134,14 @@ function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
   }
 
     ; (getChildren(vnode) || [])?.forEach((child: any) => {
-      ; (child?.dirs ? Array.from(child?.dirs) : [])?.forEach((dir: any) => {
-        if (dir.modifiers.timeline) return
+    ; (child?.dirs ? Array.from(child?.dirs) : [])?.forEach((dir: any) => {
+      if (dir.modifiers.timeline) return
 
-        dir.modifiers[`suggestedOrder-${order}`] = true
-        order++
-      })
-      order = assignChildrenOrderAttributesFor(child, order)
+      dir.modifiers[`suggestedOrder-${order}`] = true
+      order++
     })
+    order = assignChildrenOrderAttributesFor(child, order)
+  })
   return order
 }
 
@@ -288,9 +288,9 @@ function prepareTimeline(el, binding, configOptions) {
     }
     const speed
       = speeds[
-      Object.keys(binding.modifiers).find(modifier =>
-        Object.keys(speeds).includes(modifier),
-      ) || ''
+        Object.keys(binding.modifiers).find(modifier =>
+          Object.keys(speeds).includes(modifier),
+        ) || ''
       ] || 2
     timeline.to(el, { text: { value, speed } })
   }
