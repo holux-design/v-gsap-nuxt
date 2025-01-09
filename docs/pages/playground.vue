@@ -234,6 +234,30 @@
           <DemoComponent v-gsap.whenVisible.from="{ autoAlpha: 0, x: -50 }" />
         </BoxComponent>
         <BoxComponent
+          code="v-gsap.whenVisible.once.from='{ autoAlpha: 0, rotate: -45, duration: 2 }'"
+          title="Once (stays in final state)"
+        >
+          <DemoComponent
+            v-gsap.whenVisible.once.from="{
+              autoAlpha: 0,
+              rotate: -45,
+              duration: 2
+            }"
+          />
+        </BoxComponent>
+        <BoxComponent
+          code="v-gsap.whenVisible.once.reversible.from='{ autoAlpha: 0, rotate: -45, duration: 2 }'"
+          title="Once Reversible (old behavior)"
+        >
+          <DemoComponent
+            v-gsap.whenVisible.once.reversible.from="{
+              autoAlpha: 0,
+              rotate: -45,
+              duration: 2
+            }"
+          />
+        </BoxComponent>
+        <BoxComponent
           code="v-gsap.whenVisible.from='{ autoAlpha: 0, start: 'top 60%', end: 'bottom 40%' }'"
           title="Custom start/end"
         >
@@ -337,8 +361,8 @@
       </div>
       <div class="Grid">
         <BoxComponent
-          v-gsap.whenVisible.stagger.from="{ opacity: 0 }"
-          code="v-gsap.whenVisible.stagger.from='{ opacity: 0 }'"
+          v-gsap.whenVisible.stagger.from="{ opacity: 0, y: 50, stagger: 0.4 }"
+          code="v-gsap.whenVisible.stagger.from='{ opacity: 0, y: 50, stagger: 0.4 }'"
           title="Default"
         >
           <DemoComponent />
