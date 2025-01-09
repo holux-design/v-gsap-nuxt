@@ -1,4 +1,4 @@
-# `v-gsap` for Nuxt
+# `v-gsap` for Nuxt (and Vue)
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
@@ -15,6 +15,8 @@ npx nuxi module add v-gsap-nuxt
 ```
 
 That's it! You can now use `v-gsap` in your Nuxt app ✨
+
+### Want to use it with Vue? [Learn about Vue usage](https://v-gsap-nuxt.vercel.app/installation/vue.only)
 
 ## Docs
 
