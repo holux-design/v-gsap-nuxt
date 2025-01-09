@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.2.2
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.2.1...v1.2.2)
+
+### 🩹 Fixes
+
+- Lint ([c97b55d](https://github.com/holux-design/v-gsap-nuxt/commit/c97b55d))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.2.1
 
 - separated plugin code from nuxt module loader to allow for Vue support + docs
