@@ -2,11 +2,15 @@
 
 ## v1.2.1
 
+- separated plugin code from nuxt module loader to allow for Vue support + docs
+  page "Vue only"
+
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.2.0...v1.2.1)
 
 ### 🩹 Fixes
 
-- **vue:** Add export to package.json for /vue ([21f2c36](https://github.com/holux-design/v-gsap-nuxt/commit/21f2c36))
+- **vue:** Add export to package.json for /vue
+  ([21f2c36](https://github.com/holux-design/v-gsap-nuxt/commit/21f2c36))
 
 ### ❤️ Contributors
 
@@ -18,13 +22,17 @@
 
 ### 🚀 Enhancements
 
-- **vue:** Separate plugin code from defineNuxtPlugin ([e36c6d2](https://github.com/holux-design/v-gsap-nuxt/commit/e36c6d2))
-- **vue:** Add vue plugin function ([7632a05](https://github.com/holux-design/v-gsap-nuxt/commit/7632a05))
+- **vue:** Separate plugin code from defineNuxtPlugin
+  ([e36c6d2](https://github.com/holux-design/v-gsap-nuxt/commit/e36c6d2))
+- **vue:** Add vue plugin function
+  ([7632a05](https://github.com/holux-design/v-gsap-nuxt/commit/7632a05))
 
 ### 🩹 Fixes
 
-- **vue:** Linting tips ([a03112b](https://github.com/holux-design/v-gsap-nuxt/commit/a03112b))
-- **vue:** Re-init gsap context inside separated directive ([673ac26](https://github.com/holux-design/v-gsap-nuxt/commit/673ac26))
+- **vue:** Linting tips
+  ([a03112b](https://github.com/holux-design/v-gsap-nuxt/commit/a03112b))
+- **vue:** Re-init gsap context inside separated directive
+  ([673ac26](https://github.com/holux-design/v-gsap-nuxt/commit/673ac26))
 
 ### ❤️ Contributors
 
@@ -36,7 +44,8 @@
 
 ### 🩹 Fixes
 
-- Gsap context adding ([3282dc0](https://github.com/holux-design/v-gsap-nuxt/commit/3282dc0))
+- Gsap context adding
+  ([3282dc0](https://github.com/holux-design/v-gsap-nuxt/commit/3282dc0))
 
 ### ❤️ Contributors
 
