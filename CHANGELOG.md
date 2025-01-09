@@ -2,6 +2,11 @@
 
 ## v1.2.2
 
+- merged [PR #6](https://github.com/holux-design/v-gsap-nuxt/pull/6) by
+  [davidparys](https://github.com/davidparys):
+  - `.once` reverted to "really only once"
+  - added `.once.reversible` that replays every single entrance
+
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.2.1...v1.2.2)
 
 ### 🩹 Fixes
@@ -11,6 +16,7 @@
 ### ❤️ Contributors
 
 - Holux-design <office@holux-design.at>
+- [davidparys](https://github.com/davidparys)
 
 ## v1.2.1
 
