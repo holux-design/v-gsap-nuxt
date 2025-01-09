@@ -147,27 +147,25 @@ function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
 
 function prepareTimeline(el, binding, configOptions) {
   const timelineOptions: TIMELINE_OPTIONS = {}
+
   const callbacks = prepareCallbacks(binding)
 
+  // Prepare ScrollTrigger if .whenVisible. modifier is present
+  // You can overwrite scrollTrigger Props in the value of the directive
+  // .once.
   const once = binding.modifiers.call ?? binding.modifiers.once
-  const oneshot = binding.modifiers.oneshot
-
-  // Prevent using both modifiers together
-  if (once && oneshot) {
-    console.warn('Cannot use .once and .oneshot together. Defaulting to .oneshot')
-  }
-
-  const scroller = configOptions?.scroller
+  const scroller
+    = configOptions?.scroller
     || binding.value?.scroller
     || binding.value?.[0]?.scroller
     || binding.value?.[1]?.scroller
     || undefined
-  const scrub = binding.value?.scrub
+  const scrub
+    = binding.value?.scrub
     ?? binding.value?.[1]?.scrub
-    ?? ((once || oneshot) ? false : undefined)
+    ?? (once == true ? false : undefined)
     ?? true
   const markers = binding.modifiers.markers
-
   if (binding.modifiers.whenVisible) {
     timelineOptions.scrollTrigger = {
       trigger: el,
@@ -177,9 +175,11 @@ function prepareTimeline(el, binding, configOptions) {
       scrub,
       ...callbacks,
       markers,
-      toggleActions: (once && !oneshot) ? 'play none none reverse'
-        : oneshot ? 'play none none none'
-          : undefined,
+      toggleActions: binding.modifiers.once
+        ? binding.modifiers.reversible
+          ? 'play none none reverse'
+          : 'play none none none'
+        : undefined,
     }
   }
 
