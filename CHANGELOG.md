@@ -2,27 +2,14 @@
 
 ## v1.3.1
 
+- added `.onState-` functionality
+
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.2.10...v1.3.1)
 
 ### 🏡 Chore
 
-- Bump version ([d7fb32f](https://github.com/holux-design/v-gsap-nuxt/commit/d7fb32f))
-
-### ❤️ Contributors
-
-- Holux-design <office@holux-design.at>
-
-## v1.2.10
-
-[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.2.2...v1.2.10)
-
-### 🩹 Fixes
-
-- Lint ([6c7f6f9](https://github.com/holux-design/v-gsap-nuxt/commit/6c7f6f9))
-
-### 🏡 Chore
-
-- Bump version ([bb91b37](https://github.com/holux-design/v-gsap-nuxt/commit/bb91b37))
+- Bump version
+  ([d7fb32f](https://github.com/holux-design/v-gsap-nuxt/commit/d7fb32f))
 
 ### ❤️ Contributors
 
