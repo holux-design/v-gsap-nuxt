@@ -8,10 +8,6 @@
     "generate": "nuxi generate"
   },
   "dependencies": {
-    "@nuxtjs/tailwindcss": "^6.12.2",
     "nuxt": "^3.14.1592"
-  },
-  "devDependencies": {
-    "sass-embedded": "^1.83.1"
   }
 }
