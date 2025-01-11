@@ -50,7 +50,7 @@ export const vGsapDirective = (
 
   beforeMount(el, binding, vnode) {
     if (appType == 'vue') el.dataset.gsapId = uuidv4()
-    if (!gsapContext) gsapContext = gsap.context(() => { })
+    if (!gsapContext) gsapContext = gsap.context(() => {})
 
     binding = loadPreset(binding, configOptions)
 
@@ -133,8 +133,8 @@ function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
     return []
   }
 
-    ; (getChildren(vnode) || [])?.forEach((child: any) => {
-    ; (child?.dirs ? Array.from(child?.dirs) : [])?.forEach((dir: any) => {
+  ;(getChildren(vnode) || [])?.forEach((child: any) => {
+    ;(child?.dirs ? Array.from(child?.dirs) : [])?.forEach((dir: any) => {
       if (dir.modifiers.timeline) return
 
       dir.modifiers[`suggestedOrder-${order}`] = true
@@ -319,6 +319,34 @@ function prepareTimeline(el, binding, configOptions) {
       type,
       bounds: binding.value || el.parentElement,
     })
+  }
+
+  if (getValueFromModifier(binding, 'onState')) {
+    const [dataKey, targetValue = 'true']: (string | boolean | number)[]
+      = Object.keys(binding.modifiers)
+        .find(m => m.toLowerCase().includes('onstate'))
+        ?.split('-')
+        ?.slice(1)!
+
+    const targetElement = binding.modifiers.inherit
+      ? el.closest(`*[data-${dataKey}]`)
+      : el
+
+    const getCurrentValue = () => targetElement.dataset[dataKey]
+
+    if (getCurrentValue() != targetValue) timeline.pause()
+
+    const observer = new MutationObserver((mutationRecords) => {
+      const event = mutationRecords.filter(
+        record => record.attributeName == `data-${dataKey}`,
+      )?.[0]
+      if (!event) return
+
+      console.log(getCurrentValue())
+
+      if (getCurrentValue() == targetValue) return timeline.play()
+      else return timeline.play().reverse()
+    }).observe(targetElement, { attributes: true })
   }
 
   return timeline

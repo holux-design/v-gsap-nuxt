@@ -30,10 +30,10 @@ const snippets = {
 </section>`,
   DemoPinned: `<section v-gsap.timeline.pinned>
   <div class="Dot" v-gsap.add.to="{ width: '800px' }"></div>
-  <h1 
+  <h1
     v-gsap.add.fromTo="[{ opacity: 0, y: 32 }, { opacity: 1, y: 0 }]"
     v-gsap.add.to="{ opacity: 0, y: -32 }">New era of</h1>
-  <h1 
+  <h1
     v-gsap.add.withPrevious.fromTo="[{ opacity: 0, y: 32 }, { opacity: 1, y: 0 }]"
     v-gsap.add.to="{ opacity: 0, y: -32 }">animation</h1>
 </section>`,
@@ -44,6 +44,14 @@ const snippets = {
   DemoTextflowTimeline: `<section v-gsap.timeline.whenVisible="{ start: 'top bottom', end: 'bottom top', scrub: 1.5 }">
   <div v-gsap.add.to="{ x: -300 }">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
   <div v-gsap.add.withPrevious.to="{ x: 300 }">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
+</section>`,
+  DemoStateToggle: `<div
+  :data-visible="isVisible"
+  v-gsap.onState-visible.from="{ scale: 0, rotate: -25 }"></div>`,
+  DemoStateArray: `<section :data-index="currentIndex">
+  <div v-gsap.onState-index-0.inherit.from="{ scale: 0 }"></div>
+  <div v-gsap.onState-index-1.inherit.from="{ scale: 0 }"></div>
+  <div v-gsap.onState-index-2.inherit.from="{ scale: 0 }"></div>
 </section>`,
 }
 

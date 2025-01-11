@@ -46,6 +46,24 @@
           />
         </div>
       </div>
+      <div class="Grid !grid-cols-1 lg:!grid-cols-2 mt-20">
+        <BoxComponent class="w-full">
+          <DemoStateToggle />
+        </BoxComponent>
+        <Snippet
+          name="DemoStateToggle"
+          class="w-full"
+        />
+      </div>
+      <div class="Grid !grid-cols-1 lg:!grid-cols-2 mt-20">
+        <BoxComponent class="w-full">
+          <DemoStateArray />
+        </BoxComponent>
+        <Snippet
+          name="DemoStateArray"
+          class="w-full"
+        />
+      </div>
       <div
         v-gsap.timeline.pinned="{ end: '+=1500px' }"
         class="Grid !grid-cols-1 lg:!grid-cols-2 mt-20"
