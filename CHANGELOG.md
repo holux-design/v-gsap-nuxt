@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.2.10
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.2.2...v1.2.10)
+
+### 🩹 Fixes
+
+- Lint ([6c7f6f9](https://github.com/holux-design/v-gsap-nuxt/commit/6c7f6f9))
+
+### 🏡 Chore
+
+- Bump version ([bb91b37](https://github.com/holux-design/v-gsap-nuxt/commit/bb91b37))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.2.2
 
 - merged [PR #6](https://github.com/holux-design/v-gsap-nuxt/pull/6) by
