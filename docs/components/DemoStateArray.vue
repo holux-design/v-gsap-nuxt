@@ -1,5 +1,8 @@
 <template>
-  <section class="w-full h-full relative" :data-index="currentIndex">
+  <section
+    class="w-full h-full relative"
+    :data-index="currentIndex"
+  >
     <div
       v-gsap.onState-index-0.inherit.from="{ scale: 0, duration: 0.3 }"
       class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[80px] lg:h-[150px] aspect-[3/2] rounded-lg bg-neutral-300 dark:bg-neutral-600 flex items-center justify-center"
@@ -20,8 +23,8 @@
     </div>
 
     <button
-      @click="increase()"
       class="absolute -bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-md bg-neutral-300 dark:bg-neutral-600"
+      @click="increase()"
     >
       Next Card
     </button>
