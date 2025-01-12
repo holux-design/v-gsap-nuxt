@@ -30,6 +30,7 @@ type TIMELINE_OPTIONS = {
 }
 
 const globalTimelines = {}
+let observer: MutationObserver
 
 export const vGsapDirective = (
   appType: 'nuxt' | 'vue',
@@ -110,8 +111,9 @@ export const vGsapDirective = (
   },
 
   unmounted() {
-    gsapContext.revert()
-    removeEventListener('resize', resizeListener)
+    gsapContext.revert() // remove gsap timeline
+    removeEventListener('resize', resizeListener) // remove resizeListener
+    if (observer) observer.disconnect() // Disconnect onState observer (if initialized)
   },
 })
 
@@ -329,24 +331,23 @@ function prepareTimeline(el, binding, configOptions) {
         ?.slice(1)!
 
     const targetElement = binding.modifiers.inherit
-      ? el.closest(`*[data-${dataKey}]`)
-      : el
+      ? (el?.[0] || el).closest(`*[data-${dataKey}]`)
+      : el?.[0] || el
 
     const getCurrentValue = () => targetElement.dataset[dataKey]
 
     if (getCurrentValue() != targetValue) timeline.pause()
 
-    const observer = new MutationObserver((mutationRecords) => {
+    observer = new MutationObserver((mutationRecords) => {
       const event = mutationRecords.filter(
         record => record.attributeName == `data-${dataKey}`,
       )?.[0]
       if (!event) return
 
-      console.log(getCurrentValue())
-
       if (getCurrentValue() == targetValue) return timeline.play()
       else return timeline.play().reverse()
-    }).observe(targetElement, { attributes: true })
+    })
+    observer.observe(targetElement, { attributes: true })
   }
 
   return timeline
