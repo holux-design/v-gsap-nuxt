@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.3.3
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.2...v1.3.3)
+
+### 🩹 Fixes
+
+- Typo in docs ([a8930ea](https://github.com/holux-design/v-gsap-nuxt/commit/a8930ea))
+
+### ❤️ Contributors
+
+- Corentin Hervaud ([@Curs3W4ll](http://github.com/Curs3W4ll))
+
 ## v1.3.2
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.1...v1.3.2)
