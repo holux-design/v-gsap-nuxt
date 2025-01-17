@@ -39,7 +39,7 @@ export default defineNuxtModule<ModuleOptions>({
       addImports({
         name: 'useGSAP',
         as: 'useGSAP',
-        from: resolver.resolve('runtime/composables/useGSAP'), // path of composable
+        from: resolver.resolve('runtime/plugin'), // load composable from plugin
       })
     }
   },

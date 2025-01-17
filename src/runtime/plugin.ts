@@ -459,3 +459,7 @@ function getValueFromModifier(binding, term: string) {
     ?.find(m => m.toLowerCase().includes(term.toLowerCase()))
     ?.split('-')?.[1]
 }
+
+export const useGSAP = () => {
+  return gsap
+}
