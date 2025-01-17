@@ -2,11 +2,15 @@
 
 ## v1.3.3
 
+- moved composable to plugin.ts
+- added "Adding GSAP Plugins" to docs
+
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.2...v1.3.3)
 
 ### 🩹 Fixes
 
-- Typo in docs ([a8930ea](https://github.com/holux-design/v-gsap-nuxt/commit/a8930ea))
+- Typo in docs
+  ([a8930ea](https://github.com/holux-design/v-gsap-nuxt/commit/a8930ea))
 
 ### ❤️ Contributors
 
