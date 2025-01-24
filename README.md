@@ -24,6 +24,18 @@ That's it! You can now use `v-gsap` in your Nuxt app ✨
 
 [Documentation](https://v-gsap-nuxt.vercel.app/)
 
+---
+
+### GSAP Licensing
+
+GSAP is subject to its own licensing terms. Before incorporating GSAP with
+`v-gsap-nuxt` (as dependency), ensure you review and comply with the
+[GSAP Standard License](https://gsap.com/community/standard-license/).
+
+This module itself is licensed under the MIT License.
+
+---
+
 ## Contribution
 
 <details>
