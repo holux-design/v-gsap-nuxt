@@ -30,6 +30,8 @@ export default defineNuxtModule<ModuleOptions>({
       },
     )
 
+    _nuxt.options.css.push(resolver.resolve('./runtime/styles/vgsap.css'))
+
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addPlugin(resolver.resolve('./runtime/nuxt'))
 

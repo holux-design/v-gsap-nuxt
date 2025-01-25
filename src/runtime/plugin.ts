@@ -42,10 +42,9 @@ export const vGsapDirective = (
     binding = loadPreset(binding, configOptions)
 
     return {
-      'style': {
-        opacity: binding.modifiers.fromInvisible ? '0' : '1',
-      },
       'data-gsap-id': uuidv4(),
+      'data-vgsap-from-invisible': binding.modifiers.fromInvisible,
+      'data-vgsap-stagger': binding.modifiers.stagger,
     }
   },
 
@@ -265,8 +264,17 @@ function prepareTimeline(el, binding, configOptions) {
   }
   if (animationType == 'set') timeline.set(el, { ...binding.value, stagger })
   if (animationType == 'from') {
-    timeline.from(el, { ...binding.value, stagger })
-    if (binding.modifiers.fromInvisible) timeline.to(el, { opacity: 1 }, '<')
+    timeline.from(el, {
+      ...binding.value,
+      stagger,
+      duration: binding.value.duration || 0.5,
+    })
+    if (binding.modifiers.fromInvisible)
+      timeline.to(
+        el,
+        { opacity: 1, stagger, duration: binding.value.duration || 0.5 },
+        '<',
+      )
   }
 
   // .fromTo=

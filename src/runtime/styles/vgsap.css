@@ -1,0 +1,6 @@
+*[data-vgsap-from-invisible="true"]:not([data-vgsap-stagger="true"]) {
+	opacity: 0;
+}
+*[data-vgsap-from-invisible="true"][data-vgsap-stagger="true"] > * {
+	opacity: 0;
+}
