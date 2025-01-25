@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.3.4
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.3...v1.3.4)
+
+### 💅 Refactors
+
+- **fromInvisible:** Move fromInvisible handling to separate css file // fix(fromInvisible.stagger) combination ([332c246](https://github.com/holux-design/v-gsap-nuxt/commit/332c246))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.3.3
 
 - moved composable to plugin.ts
