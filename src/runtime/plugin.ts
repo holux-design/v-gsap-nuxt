@@ -267,6 +267,8 @@ function prepareTimeline(el, binding, configOptions) {
     timeline.from(el, {
       ...binding.value,
       stagger,
+      opacity:
+        binding.value.opacity ?? (binding.modifiers.fromInvisible ? 0 : 1),
       duration: binding.value.duration || 0.5,
     })
     if (binding.modifiers.fromInvisible)
@@ -435,7 +437,8 @@ function loadPreset(binding, configOptions) {
     preset.modifiers
       .split('.')
       .forEach(modifier => (binding.modifiers[modifier] = true))
-    if (preset.value) binding.value = preset.value
+    if (preset.value)
+      binding.value = { ...binding.value, ...(preset.value as object) }
   }
 
   // Load Preset if .preset. modifier is set
