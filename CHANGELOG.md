@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.3.5
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.4...v1.3.5)
+
+### 🩹 Fixes
+
+- **#12:** .entrance not refreshing on page change ([6a6ba94](https://github.com/holux-design/v-gsap-nuxt/commit/6a6ba94))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.3.4
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.3...v1.3.4)
