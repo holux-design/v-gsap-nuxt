@@ -4,13 +4,16 @@
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.5...v1.3.6)
 
+- Nothing changed, just added keywords and had to re-release to npm 🙄
+
 ## v1.3.5
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.4...v1.3.5)
 
 ### 🩹 Fixes
 
-- **#12:** .entrance not refreshing on page change ([6a6ba94](https://github.com/holux-design/v-gsap-nuxt/commit/6a6ba94))
+- **#12:** .entrance not refreshing on page change
+  ([6a6ba94](https://github.com/holux-design/v-gsap-nuxt/commit/6a6ba94))
 
 ### ❤️ Contributors
 
@@ -22,7 +25,9 @@
 
 ### 💅 Refactors
 
-- **fromInvisible:** Move fromInvisible handling to separate css file // fix(fromInvisible.stagger) combination ([332c246](https://github.com/holux-design/v-gsap-nuxt/commit/332c246))
+- **fromInvisible:** Move fromInvisible handling to separate css file //
+  fix(fromInvisible.stagger) combination
+  ([332c246](https://github.com/holux-design/v-gsap-nuxt/commit/332c246))
 
 ### ❤️ Contributors
 
