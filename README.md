@@ -4,7 +4,8 @@
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href] [![Nuxt][nuxt-src]][nuxt-href]
 
-![](docs/public/cover.png)
+[![](docs/public/cover.png)](https://v-gsap-nuxt.vercel.app/) (Click image to
+visit the docs)
 
 ## Quick Setup
 
