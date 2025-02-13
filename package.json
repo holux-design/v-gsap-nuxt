@@ -4,6 +4,26 @@
   "description": "GSAP Directive for Nuxt 3",
   "repository": "holux-design/v-gsap-nuxt",
   "homepage": "https://v-gsap-nuxt.vercel.app",
+  "contributors": [
+    {
+      "name": "Lukas Hofstätter (Holux Design)"
+    }
+  ],
+  "author": {
+    "name": "Lukas Hofstätter",
+    "email": "office@holux-design.at"
+  },
+  "keywords": [
+    "v-gsap",
+    "gsap",
+    "nuxt",
+    "nuxt3",
+    "animation",
+    "motion",
+    "nuxt-gsap",
+    "gsap-nuxt",
+    "gsap-directive"
+  ],
   "license": "MIT",
   "type": "module",
   "exports": {
