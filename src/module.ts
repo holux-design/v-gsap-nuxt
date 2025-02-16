@@ -3,6 +3,7 @@ import {
   addPlugin,
   createResolver,
   addImports,
+  addComponent,
 } from '@nuxt/kit'
 import { defu } from 'defu'
 
@@ -44,5 +45,10 @@ export default defineNuxtModule<ModuleOptions>({
         from: resolver.resolve('runtime/plugin'), // load composable from plugin
       })
     }
+
+    addComponent({
+      name: 'GSAPTransition',
+      filePath: resolver.resolve('./runtime/components/GSAPTransition.vue'),
+    })
   },
 })
