@@ -7,7 +7,22 @@
 [![](docs/public/cover.png)](https://v-gsap-nuxt.vercel.app/) (Click image to
 visit the docs)
 
-## Quick Setup
+## Features
+
+- 🚀 Smooth animations with [GSAP](https://gsap.com/)
+- 🖍️ Easy to use directive syntax with
+  [`v-gsap`](https://v-gsap-nuxt.vercel.app/playground)
+- 📦 [`useGSAP()`](https://v-gsap-nuxt.vercel.app/usage/composable) composable
+  for complex animations
+- 🪄 [`<GSAPTransition>`](https://v-gsap-nuxt.vercel.app/usage/v-if) to animate
+  `v-if`
+- ⌨️ Powerful
+  [entrance presets](https://v-gsap-nuxt.vercel.app/usage/modifiers#entrance)
+  and [custom presets](https://v-gsap-nuxt.vercel.app/usage/presets)
+- 🧩 Full GSAP
+  [Plugin extensibility](https://v-gsap-nuxt.vercel.app/information/gsap-plugins)
+
+## Installation
 
 Install the module to your Nuxt application with one command:
 
@@ -21,9 +36,7 @@ That's it! You can now use `v-gsap` in your Nuxt app ✨
 
 ## Docs
 
-### Find the full docs and examples here:
-
-[Documentation](https://v-gsap-nuxt.vercel.app/)
+### 👁️ Find the full docs and examples here: [Documentation](https://v-gsap-nuxt.vercel.app/)
 
 ---
 
@@ -50,17 +63,16 @@ This module itself is licensed under the MIT License.
   npm run dev:prepare
   
   # Develop with the playground
-  npm run dev
+  npm run dev:playground
+  # OR
+  # Develop with the Docs
+  npm run dev:docs
   
   # Build the playground
   npm run dev:build
   
   # Run ESLint
-  npm run lint
-  
-  # Run Vitest
-  npm run test
-  npm run test:watch
+  npm run dev:check
   
   # Release new version
   npm run release
