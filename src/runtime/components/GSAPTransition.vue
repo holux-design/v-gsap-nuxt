@@ -1,12 +1,12 @@
 <template>
   <Transition
-    @leave="el => onLeave(el)"
-    @enter="el => onEnter(el)"
+    ref="slotRef"
     :duration="duration * 1000"
     :appear="appear"
-    ref="slotRef"
+    @leave="el => onLeave(el)"
+    @enter="el => onEnter(el)"
   >
-    <slot></slot>
+    <slot />
   </Transition>
 </template>
 

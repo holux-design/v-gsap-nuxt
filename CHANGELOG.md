@@ -4,6 +4,9 @@
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.6...v1.3.7)
 
+- added `GSAPTransition` wrapper component to allow GSAP transitions on
+  v-if/v-show
+
 ## v1.3.6
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.5...v1.3.6)
