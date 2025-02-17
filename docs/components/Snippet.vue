@@ -1,8 +1,5 @@
 <template>
-  <pre
-    class="Snippet"
-    v-html="html"
-  />
+  <pre class="Snippet" v-html="html" />
 </template>
 
 <script setup lang="ts">
@@ -53,6 +50,11 @@ const snippets = {
   <div v-gsap.onState-index-1.inherit.from="{ scale: 0 }"></div>
   <div v-gsap.onState-index-2.inherit.from="{ scale: 0 }"></div>
 </section>`,
+  DemoVIF: `<GSAPTransition 
+    :hidden="{ scale: 0, rotate: -25 }"
+    :visible="{ scale: 1, rotate: 0 }">
+  <div v-if="index == 0"></div>
+</GSAPTransition>`,
 }
 
 const html = await codeToHtml(snippets?.[props.name] || '', {
