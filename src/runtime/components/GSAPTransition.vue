@@ -17,7 +17,6 @@ import { useGSAP } from '../plugin'
 const props = withDefaults(
   defineProps<{
     hidden?: GSAPTweenVars
-    visible?: GSAPTweenVars
     duration?: number // seconds
     appear?: boolean
     ease?: string
@@ -34,11 +33,6 @@ const hidden = computed(() => ({
   ease: props.ease,
   ...props.hidden,
 }))
-const visible = computed(() => ({
-  opacity: 1,
-  ease: props.ease,
-  ...props.visible,
-}))
 
 const slotRef = ref()
 
@@ -47,8 +41,8 @@ onMounted(() => {
 })
 
 const onEnter = (element: Element, done: () => void) => {
-  useGSAP().fromTo(element, hidden.value, {
-    ...visible.value,
+  useGSAP().from(element, {
+    ...hidden.value,
     duration: props.duration,
     onComplete: done,
   })
