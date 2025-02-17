@@ -4,9 +4,13 @@
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.8...v1.3.9)
 
+- GSAPTransition: remove `visible` prop (is default element state, only animate
+  from/to `hidden` state)
+
 ### 🏡 Chore
 
-- **changelog:** V.1.3.8 ([50c9bcb](https://github.com/holux-design/v-gsap-nuxt/commit/50c9bcb))
+- **changelog:** V.1.3.8
+  ([50c9bcb](https://github.com/holux-design/v-gsap-nuxt/commit/50c9bcb))
 
 ### ❤️ Contributors
 
