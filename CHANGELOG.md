@@ -4,6 +4,9 @@
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.7...v1.3.8)
 
+- add `ease` prop to `<GSAPTransition>`
+- code improvements // calling done-callback after v-if animation completed
+
 ## v1.3.7
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.6...v1.3.7)
