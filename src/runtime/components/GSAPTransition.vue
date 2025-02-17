@@ -3,8 +3,9 @@
     ref="slotRef"
     :duration="duration * 1000"
     :appear="appear"
-    @leave="el => onLeave(el)"
-    @enter="el => onEnter(el)"
+    :ease="ease"
+    @leave="onLeave"
+    @enter="onEnter"
   >
     <slot />
   </Transition>
@@ -19,19 +20,23 @@ const props = withDefaults(
     visible?: GSAPTweenVars
     duration?: number // seconds
     appear?: boolean
+    ease?: string
   }>(),
   {
     duration: 0.5,
     appear: false,
+    ease: 'power1.inOut',
   },
 )
 
 const hidden = computed(() => ({
   opacity: 0,
+  ease: props.ease,
   ...props.hidden,
 }))
 const visible = computed(() => ({
   opacity: 1,
+  ease: props.ease,
   ...props.visible,
 }))
 
@@ -41,17 +46,19 @@ onMounted(() => {
   if (props.appear) useGSAP().set(slotRef.value, hidden.value)
 })
 
-const onEnter = (element: Element) => {
+const onEnter = (element: Element, done: () => void) => {
   useGSAP().fromTo(element, hidden.value, {
     ...visible.value,
     duration: props.duration,
+    onComplete: done,
   })
 }
 
-const onLeave = (element: Element) => {
+const onLeave = (element: Element, done: () => void) => {
   useGSAP().to(element, {
     ...hidden.value,
     duration: props.duration,
+    onComplete: done,
   })
 }
 </script>
