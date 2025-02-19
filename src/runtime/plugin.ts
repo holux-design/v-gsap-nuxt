@@ -285,7 +285,16 @@ function prepareTimeline(el, binding, configOptions) {
     if (binding.modifiers.stagger) values[1].stagger = stagger
     if (binding.modifiers.fromInvisible)
       values[1].opacity = values[1].opacity || 1
-    timeline.fromTo(el, binding.value?.[0], binding.value?.[1])
+    timeline.fromTo(el, 
+      {
+        ...binding.value,
+        stagger,
+        opacity: binding.value.opacity ?? (binding.modifiers.fromInvisible ? 0 : 1),
+        duration: binding.value.duration || 0.5
+      }, 
+      { 
+        opacity: 1, stagger, duration: binding.value.duration || 0.5 
+      }, "<");
   }
 
   // .animateText. // .slow // .fast
