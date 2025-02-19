@@ -12,6 +12,7 @@ type ANIMATION_TYPES = 'from' | 'to' | 'set' | 'fromTo' | 'call'
 type TIMELINE_OPTIONS = {
   scrollTrigger?: {
     trigger?: string | HTMLElement
+    id?: string
     start?: string
     end?: string
     scrub?: boolean | number
@@ -109,7 +110,10 @@ export const vGsapDirective = (
     })
   },
 
-  unmounted() {
+  unmounted(el) {
+    ScrollTrigger.getById(el.dataset.gsapId)?.kill()
+    globalTimelines[el.dataset.gsapId]?.scrollTrigger?.kill()
+
     gsapContext.revert() // remove gsap timeline
     removeEventListener('resize', resizeListener) // remove resizeListener
     if (observer) observer.disconnect() // Disconnect onState observer (if initialized)
@@ -170,6 +174,7 @@ function prepareTimeline(el, binding, configOptions) {
   if (binding.modifiers.whenVisible) {
     timelineOptions.scrollTrigger = {
       trigger: el,
+      id: el.dataset.gsapId,
       start: binding.value?.start ?? 'top 90%',
       end: binding.value?.end ?? 'top 50%',
       scroller,
@@ -188,6 +193,7 @@ function prepareTimeline(el, binding, configOptions) {
     const end = binding.value?.end ?? '+=1000px'
     timelineOptions.scrollTrigger = {
       trigger: el,
+      id: el.dataset.gsapId,
       start: binding.value?.start ?? 'center center',
       end,
       scroller,
@@ -202,6 +208,7 @@ function prepareTimeline(el, binding, configOptions) {
   if (binding.modifiers.parallax) {
     timelineOptions.scrollTrigger = {
       trigger: el,
+      id: el.dataset.gsapId,
       start: `top bottom`,
       end: `bottom top`,
       scroller,
