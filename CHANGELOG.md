@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.3.10
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.9...v1.3.10)
+
+### 🩹 Fixes
+
+- **entrance:** Use `fromTo` instead of `from` to fix reverse playing on upscroll ([abbc753](https://github.com/holux-design/v-gsap-nuxt/commit/abbc753))
+
+### 🏡 Chore
+
+- **changelog:** V1.3.9 ([84b6387](https://github.com/holux-design/v-gsap-nuxt/commit/84b6387))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.3.9
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.8...v1.3.9)
