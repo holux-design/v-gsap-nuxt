@@ -43,23 +43,24 @@ export const vGsapDirective = (
     binding = loadPreset(binding, configOptions)
 
     return {
-      'data-gsap-id': uuidv4(),
       'data-vgsap-from-invisible': binding.modifiers.fromInvisible,
       'data-vgsap-stagger': binding.modifiers.stagger,
     }
   },
 
-  beforeMount(el, binding, vnode) {
-    if (appType == 'vue') el.dataset.gsapId = uuidv4()
+  async beforeMount(el, binding, vnode) {
+    binding = loadPreset(binding, configOptions)
+    el.dataset.gsapId = uuidv4()
+    el.dataset.vgsapFromInvisible = binding.modifiers.fromInvisible
+    el.dataset.vgsapStagger = binding.modifiers.stagger
+
     if (!gsapContext) gsapContext = gsap.context(() => {})
 
-    binding = loadPreset(binding, configOptions)
-
-    // .timeline => Prepare before children get mounted
-    // Add data-gsap-order to children for animation steps (otherwise children get mounted first and then bottom-up)
     if (binding.modifiers.timeline) {
       if (!timelineShouldBeActive(binding, configOptions)) return
       assignChildrenOrderAttributesFor(vnode)
+
+      await nextTick()
 
       globalTimelines[el.dataset.gsapId] = prepareTimeline(
         el,
@@ -67,6 +68,7 @@ export const vGsapDirective = (
         configOptions,
       )
       el.dataset.gsapTimeline = true
+      window.dispatchEvent(new Event('gsap-timeline-ready'))
 
       gsapContext.add(() => globalTimelines[el.dataset.gsapId])
     }
@@ -94,10 +96,17 @@ export const vGsapDirective = (
           || getValueFromModifier(binding, 'suggestedOrder-')
         if (binding.modifiers.withPrevious) order = '<'
 
-        if (!el.closest(`[data-gsap-timeline="true"]`)?.dataset?.gsapId) return
-        globalTimelines[
-          el.closest(`[data-gsap-timeline="true"]`).dataset.gsapId
-        ]?.add(timeline, order)
+        const addStepToTimeline = () => {
+          if (!el.closest(`[data-gsap-timeline="true"]`)?.dataset?.gsapId)
+            return
+
+          globalTimelines[
+            el.closest(`[data-gsap-timeline="true"]`).dataset.gsapId
+          ]?.add(timeline, order)
+        }
+
+        window.addEventListener('gsap-timeline-ready', addStepToTimeline) // needed for browser back/forward
+        addStepToTimeline()
       }
     }
 
