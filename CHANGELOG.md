@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.3.14
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.13...v1.3.14)
+
+### 🩹 Fixes
+
+- **entrance:** FromInvisible issue where from opacity:0 would not persist across page nav ([30ff059](https://github.com/holux-design/v-gsap-nuxt/commit/30ff059))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.3.13
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.12...v1.3.13)
