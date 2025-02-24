@@ -291,8 +291,10 @@ function prepareTimeline(el, binding, configOptions) {
   if (animationType == 'fromTo') {
     const values = binding.value
     if (binding.modifiers.stagger) values[1].stagger = stagger
-    if (binding.modifiers.fromInvisible)
+    if (binding.modifiers.fromInvisible) {
+      values[0].opacity = 0
       values[1].opacity = values[1].opacity || 1
+    }
     timeline.fromTo(el, binding.value?.[0], binding.value?.[1])
   }
 
