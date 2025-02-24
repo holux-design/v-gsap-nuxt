@@ -253,6 +253,14 @@ function prepareTimeline(el, binding, configOptions) {
     : false
   if (binding.modifiers.stagger) el = el.children
 
+  // Remove scrollTrigger attributes from binding.value to prevent console.warings "Invalid property ... Missing plugin?"
+  delete binding.value?.start
+  delete binding.value?.end
+  delete binding.value?.scrub
+  delete binding.value?.scroller
+  delete binding.value?.markers
+  delete binding.value?.toggleActions
+
   // Setup actual animation step // Respects stagger if set
   const animationType: ANIMATION_TYPES = Object.keys(binding.modifiers).find(
     modifier => ['to', 'from', 'set', 'fromTo', 'call'].includes(modifier),
