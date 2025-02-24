@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.3.11
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.10...v1.3.11)
+
+### 🩹 Fixes
+
+- **GSAPTransition:** Remove "GSAPTweenVars" type -> blocked build if not found with autoimport ([1664600](https://github.com/holux-design/v-gsap-nuxt/commit/1664600))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.3.10
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.9...v1.3.10)
