@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.3.13
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.12...v1.3.13)
+
+### 🩹 Fixes
+
+- **console-warning:** Remove scrolltrigger attributes from value before initializing the tween ([25db20a](https://github.com/holux-design/v-gsap-nuxt/commit/25db20a))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.3.12
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.11...v1.3.12)
