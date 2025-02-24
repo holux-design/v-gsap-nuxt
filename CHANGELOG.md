@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.12
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.11...v1.3.12)
+
 ## v1.3.11
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.10...v1.3.11)
