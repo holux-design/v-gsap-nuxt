@@ -38,7 +38,7 @@ export const vGsapDirective = (
   gsapContext,
   resizeListener,
 ) => ({
-  getSSRProps: (binding) => {
+  getSSRProps: binding => {
     binding = loadPreset(binding, configOptions)
 
     return {
@@ -78,8 +78,7 @@ export const vGsapDirective = (
     if (binding.modifiers.timeline) {
       globalTimelines[el.dataset.gsapId]?.scrollTrigger?.refresh()
       ScrollTrigger?.normalizeScroll(true)
-    }
-    else {
+    } else {
       // All directives that are not .timeline
 
       if (binding.modifiers.magnetic) return addMagneticEffect(el, binding)
@@ -88,9 +87,9 @@ export const vGsapDirective = (
         timeline = prepareTimeline(el, binding, configOptions)
 
       if (binding.modifiers.add) {
-        let order
-          = getValueFromModifier(binding, 'order-')
-          || getValueFromModifier(binding, 'suggestedOrder-')
+        let order =
+          getValueFromModifier(binding, 'order-') ||
+          getValueFromModifier(binding, 'suggestedOrder-')
         if (binding.modifiers.withPrevious) order = '<'
 
         if (!el.closest(`[data-gsap-timeline="true"]`)?.dataset?.gsapId) return
@@ -128,7 +127,7 @@ function timelineShouldBeActive(binding, configOptions) {
 function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
   let order = startOrder || 0
 
-  const getChildren = (vnode) => {
+  const getChildren = vnode => {
     if (vnode?.children) return Array.from(vnode?.children)
     if (vnode?.component?.subtree) return Array.from(vnode?.ctx?.subtree)
     return []
@@ -155,17 +154,17 @@ function prepareTimeline(el, binding, configOptions) {
   // You can overwrite scrollTrigger Props in the value of the directive
   // .once.
   const once = binding.modifiers.call ?? binding.modifiers.once
-  const scroller
-    = configOptions?.scroller
-    || binding.value?.scroller
-    || binding.value?.[0]?.scroller
-    || binding.value?.[1]?.scroller
-    || undefined
-  const scrub
-    = binding.value?.scrub
-    ?? binding.value?.[1]?.scrub
-    ?? (once == true ? false : undefined)
-    ?? true
+  const scroller =
+    configOptions?.scroller ||
+    binding.value?.scroller ||
+    binding.value?.[0]?.scroller ||
+    binding.value?.[1]?.scroller ||
+    undefined
+  const scrub =
+    binding.value?.scrub ??
+    binding.value?.[1]?.scrub ??
+    (once == true ? false : undefined) ??
+    true
   const markers = binding.modifiers.markers
   if (binding.modifiers.whenVisible) {
     timelineOptions.scrollTrigger = {
@@ -298,8 +297,8 @@ function prepareTimeline(el, binding, configOptions) {
       slow: 0.5,
       fast: 10,
     }
-    const speed
-      = speeds[
+    const speed =
+      speeds[
         Object.keys(binding.modifiers).find(modifier =>
           Object.keys(speeds).includes(modifier),
         ) || ''
@@ -334,8 +333,8 @@ function prepareTimeline(el, binding, configOptions) {
   }
 
   if (getValueFromModifier(binding, 'onState')) {
-    const [dataKey, targetValue = 'true']: (string | boolean | number)[]
-      = Object.keys(binding.modifiers)
+    const [dataKey, targetValue = 'true']: (string | boolean | number)[] =
+      Object.keys(binding.modifiers)
         .find(m => m.toLowerCase().includes('onstate'))
         ?.split('-')
         ?.slice(1)!
@@ -348,7 +347,7 @@ function prepareTimeline(el, binding, configOptions) {
 
     if (getCurrentValue() != targetValue) timeline.pause()
 
-    observer = new MutationObserver((mutationRecords) => {
+    observer = new MutationObserver(mutationRecords => {
       const event = mutationRecords.filter(
         record => record.attributeName == `data-${dataKey}`,
       )?.[0]
@@ -399,27 +398,42 @@ function addMagneticEffect(el, binding) {
       const deltaX = e.clientX - centerX
       const deltaY = e.clientY - centerY
 
-      let strengthFactor
-        = Object.entries(strengthModifiers).find(
+      let strengthFactor =
+        Object.entries(strengthModifiers).find(
           entry => binding.modifiers[entry[0]],
         )?.[1] || 1
 
       const direction = binding.modifiers.refuse ? -1 : 1
       if (binding.modifiers.refuse) strengthFactor = 4
 
-      const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2)
-      const magneticDistance = ((width + height) / 2) * (strengthFactor / 1.5) // Distance for magnetic attraction
+      const aspectRatio = () => {
+        let aspect = [Math.max(width, height) / Math.min(width, height)]
+        if (width > height) aspect.push(1)
+        else aspect = [1, ...aspect]
+        return aspect
+      }
+
+      // Normalisiere die Distanz basierend auf die Elementdimensionen
+      const normalizedX = deltaX / (width / 2) / (aspectRatio()[1] * 2)
+      const normalizedY = deltaY / (height / 2) / (aspectRatio()[0] * 2)
+
+      // Berechne die elliptische Distanz (Werte zwischen 0 und 1)
+      const ellipticalDistance = Math.sqrt(normalizedX ** 2 + normalizedY ** 2)
+
       const attractionStrength = 0.45 * strengthFactor // Magnetic strength
 
-      if (distance < magneticDistance) {
-        const strength = 1 - distance / magneticDistance
+      const magneticThreshold = strengthFactor / 1.5 // Schwellenwert für den magnetischen Effekt
+
+      if (ellipticalDistance < magneticThreshold) {
+        const strength = 1 - ellipticalDistance / magneticThreshold
+        // Skaliere die Verschiebung proportional zur Elementgröße
         gsap.to(el, {
-          x: deltaX * strength * attractionStrength * direction,
-          y: deltaY * strength * attractionStrength * direction,
+          x: deltaX * strength * attractionStrength * direction * (width / 100),
+          y:
+            deltaY * strength * attractionStrength * direction * (height / 100),
           duration: 0.2,
         })
-      }
-      else {
+      } else {
         gsap.to(el, {
           x: 0,
           y: 0,
