@@ -69,7 +69,6 @@ export const vGsapDirective = (
         configOptions,
       )
       el.dataset.gsapTimeline = true
-      window.dispatchEvent(new Event('gsap-timeline-ready'))
 
       gsapContext.add(() => globalTimelines[el.dataset.gsapId])
     }
@@ -97,17 +96,11 @@ export const vGsapDirective = (
           || getValueFromModifier(binding, 'suggestedOrder-')
         if (binding.modifiers.withPrevious) order = '<'
 
-        const addStepToTimeline = () => {
-          if (!el.closest(`[data-gsap-timeline="true"]`)?.dataset?.gsapId)
-            return
+        if (!el.closest(`[data-gsap-timeline="true"]`)?.dataset?.gsapId) return
 
-          globalTimelines[
-            el.closest(`[data-gsap-timeline="true"]`).dataset.gsapId
-          ]?.add(timeline, order)
-        }
-
-        window.addEventListener('gsap-timeline-ready', addStepToTimeline) // needed for browser back/forward
-        addStepToTimeline()
+        globalTimelines[
+          el.closest(`[data-gsap-timeline="true"]`).dataset.gsapId
+        ]?.add(timeline, order)
       }
     }
 
