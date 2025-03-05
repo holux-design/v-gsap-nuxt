@@ -1,5 +1,6 @@
 import Draggable from 'gsap/Draggable'
-import { gsap, ScrollTrigger, ScrollToPlugin } from 'gsap/all'
+import { ScrollTrigger, ScrollToPlugin } from 'gsap/all'
+import { gsap } from 'gsap'
 import TextPlugin from 'gsap/TextPlugin'
 import { uuidv4 } from './utils/utils'
 import { entrancePresets } from './utils/entrance-presets'
@@ -269,6 +270,14 @@ function prepareTimeline(el, binding, configOptions) {
     : false
   if (binding.modifiers.stagger) el = el.children
 
+  // Remove scrollTrigger attributes from binding.value to prevent console.warings "Invalid property ... Missing plugin?"
+  delete binding.value?.start
+  delete binding.value?.end
+  delete binding.value?.scrub
+  delete binding.value?.scroller
+  delete binding.value?.markers
+  delete binding.value?.toggleActions
+
   // Setup actual animation step // Respects stagger if set
   const animationType: ANIMATION_TYPES = Object.keys(binding.modifiers).find(
     modifier => ['to', 'from', 'set', 'fromTo', 'call'].includes(modifier),
@@ -299,8 +308,10 @@ function prepareTimeline(el, binding, configOptions) {
   if (animationType == 'fromTo') {
     const values = binding.value
     if (binding.modifiers.stagger) values[1].stagger = stagger
-    if (binding.modifiers.fromInvisible)
+    if (binding.modifiers.fromInvisible) {
+      values[0].opacity = 0
       values[1].opacity = values[1].opacity || 1
+    }
     timeline.fromTo(el, binding.value?.[0], binding.value?.[1])
   }
 
@@ -487,6 +498,6 @@ function getValueFromModifier(binding, term: string) {
     ?.split('-')?.[1]
 }
 
-export const useGSAP = () => {
+export const useGSAP = (): typeof gsap => {
   return gsap
 }

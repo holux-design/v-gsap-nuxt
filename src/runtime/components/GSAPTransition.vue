@@ -16,7 +16,7 @@ import { useGSAP } from '../plugin'
 
 const props = withDefaults(
   defineProps<{
-    hidden?: GSAPTweenVars
+    hidden?: any
     duration?: number // seconds
     appear?: boolean
     ease?: string

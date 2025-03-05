@@ -1,16 +1,76 @@
 # Changelog
 
+## v1.3.16
+
+- add type support for `useGSAP` composable
+
+### ❤️ Contributors
+
+- [oooFreaKooo](https://github.com/oooFreaKooo)
+- Holux-design <office@holux-design.at>
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.15...v1.3.16)
+
+## v1.3.14
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.13...v1.3.14)
+
+### 🩹 Fixes
+
+- **entrance:** FromInvisible issue where from opacity:0 would not persist
+  across page nav
+  ([30ff059](https://github.com/holux-design/v-gsap-nuxt/commit/30ff059))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
+## v1.3.13
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.12...v1.3.13)
+
+### 🩹 Fixes
+
+- **console-warning:** Remove scrolltrigger attributes from value before
+  initializing the tween
+  ([25db20a](https://github.com/holux-design/v-gsap-nuxt/commit/25db20a))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
+## v1.3.12
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.11...v1.3.12)
+
+## v1.3.11
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.10...v1.3.11)
+
+### 🩹 Fixes
+
+- **GSAPTransition:** Remove "GSAPTweenVars" type -> blocked build if not found
+  with autoimport
+  ([1664600](https://github.com/holux-design/v-gsap-nuxt/commit/1664600))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.3.10
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.9...v1.3.10)
 
 ### 🩹 Fixes
 
-- **entrance:** Use `fromTo` instead of `from` to fix reverse playing on upscroll ([abbc753](https://github.com/holux-design/v-gsap-nuxt/commit/abbc753))
+- **entrance:** Use `fromTo` instead of `from` to fix reverse playing on
+  upscroll
+  ([abbc753](https://github.com/holux-design/v-gsap-nuxt/commit/abbc753))
 
 ### 🏡 Chore
 
-- **changelog:** V1.3.9 ([84b6387](https://github.com/holux-design/v-gsap-nuxt/commit/84b6387))
+- **changelog:** V1.3.9
+  ([84b6387](https://github.com/holux-design/v-gsap-nuxt/commit/84b6387))
 
 ### ❤️ Contributors
 
