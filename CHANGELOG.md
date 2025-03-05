@@ -6,11 +6,17 @@
 
 ### 🩹 Fixes
 
-- **pinned:** Handle initialization fully from beforeMount instead of SSRProps (which is not handled on browser back) // eventListener for when timeline is ready after browser navigation ([2f8534a](https://github.com/holux-design/v-gsap-nuxt/commit/2f8534a))
+- fix "500:insertBefore" issue with `v-gsap.timeline.pinned` on forward/backward
+  navigation
+- **pinned:** Handle initialization fully from beforeMount instead of SSRProps
+  (which is not handled on browser back) // eventListener for when timeline is
+  ready after browser navigation
+  ([2f8534a](https://github.com/holux-design/v-gsap-nuxt/commit/2f8534a))
 
 ### ❤️ Contributors
 
 - Holux-design <office@holux-design.at>
+- [gluharry](https://github.com/gluharry)
 
 ## v1.3.16
 
