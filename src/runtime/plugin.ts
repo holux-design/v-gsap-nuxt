@@ -481,6 +481,6 @@ function getValueFromModifier(binding, term: string) {
     ?.split('-')?.[1]
 }
 
-export const useGSAP = () => {
+export const useGSAP = (): typeof gsap => {
   return gsap
 }
