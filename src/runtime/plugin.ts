@@ -1,5 +1,6 @@
 import Draggable from 'gsap/Draggable'
-import { gsap, ScrollTrigger, ScrollToPlugin } from 'gsap/all'
+import { ScrollTrigger, ScrollToPlugin } from 'gsap/all'
+import { gsap } from 'gsap'
 import TextPlugin from 'gsap/TextPlugin'
 import { uuidv4 } from './utils/utils'
 import { entrancePresets } from './utils/entrance-presets'
