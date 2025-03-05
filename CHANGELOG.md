@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.3.17
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.16...v1.3.17)
+
+### 🩹 Fixes
+
+- **pinned:** Handle initialization fully from beforeMount instead of SSRProps (which is not handled on browser back) // eventListener for when timeline is ready after browser navigation ([2f8534a](https://github.com/holux-design/v-gsap-nuxt/commit/2f8534a))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.3.16
 
 - add type support for `useGSAP` composable
