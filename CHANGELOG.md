@@ -4,20 +4,10 @@
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.17...v1.3.18)
 
-### 🏡 Chore
-
-- **changelog:** V1.3.17 ([f9681e5](https://github.com/holux-design/v-gsap-nuxt/commit/f9681e5))
-
-### ❤️ Contributors
-
-- Holux-design <office@holux-design.at>
-
-## v1.3.17
-
-[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.16...v1.3.17)
-
 ### 🩹 Fixes
 
+- fix missing import for `nextTick` (PR #24 by
+  [NekoSukuriputo](https://github.com/NekoSukuriputo))
 - fix "500:insertBefore" issue with `v-gsap.timeline.pinned` on forward/backward
   navigation
 - **pinned:** Handle initialization fully from beforeMount instead of SSRProps
@@ -29,6 +19,7 @@
 
 - Holux-design <office@holux-design.at>
 - [gluharry](https://github.com/gluharry)
+- [NekoSukuriputo](https://github.com/NekoSukuriputo)
 
 ## v1.3.16
 
