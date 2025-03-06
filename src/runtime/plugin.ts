@@ -5,6 +5,7 @@ import TextPlugin from 'gsap/TextPlugin'
 import { uuidv4 } from './utils/utils'
 import { entrancePresets } from './utils/entrance-presets'
 import type { Preset } from './types/Preset'
+import { nextTick } from 'vue';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, Draggable, TextPlugin)
 
