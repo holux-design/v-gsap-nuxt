@@ -34,6 +34,7 @@ type TIMELINE_OPTIONS = {
 
 const globalTimelines = {}
 let observer: MutationObserver
+let intersectionObserver: IntersectionObserver
 
 export const vGsapDirective = (
   appType: 'nuxt' | 'vue',
@@ -121,6 +122,7 @@ export const vGsapDirective = (
     gsapContext.revert() // remove gsap timeline
     removeEventListener('resize', resizeListener) // remove resizeListener
     if (observer) observer.disconnect() // Disconnect onState observer (if initialized)
+    if (intersectionObserver) intersectionObserver.disconnect() // Disconnect intersection observer (if initialized)
   },
 })
 
@@ -456,7 +458,18 @@ function addMagneticEffect(el, binding) {
     }
   }
 
-  window.addEventListener('mousemove', handleMouseMove)
+  intersectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        window.addEventListener('mousemove', handleMouseMove)
+      }
+      else {
+        window.removeEventListener('mousemove', handleMouseMove)
+      }
+    })
+  })
+
+  intersectionObserver.observe(el)
 }
 
 function loadPreset(binding, configOptions) {
