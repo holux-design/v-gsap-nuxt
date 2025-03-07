@@ -428,7 +428,7 @@ function addMagneticEffect(el, binding) {
       const attractionStrength = 0.45 * strengthFactor // Magnetic strength
 
       if (distance < magneticDistanceX && distance < magneticDistanceY) {
-        const strength = Math.abs(1 - centerDistance) / ((magneticDistanceX + magneticDistanceY) / 2)
+        const strength = Math.abs(1 - centerDistance / 4) / ((magneticDistanceX + magneticDistanceY) / 2)
         gsap.to(el, {
           x: deltaX * strength * attractionStrength * direction,
           y: deltaY * strength * attractionStrength * direction,
