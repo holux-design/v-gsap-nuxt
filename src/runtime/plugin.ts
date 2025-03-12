@@ -425,13 +425,10 @@ function addMagneticEffect(el, binding) {
       const distanceX = left < e.clientX && right > e.clientX ? 0 : Math.min(Math.abs(e.clientX - left), Math.abs(e.clientX - right)) // Horizontal distance between mouse and el
       const distanceY = top < e.clientY && bottom > e.clientY ? 0 : Math.min(Math.abs(e.clientY - top), Math.abs(e.clientY - bottom)) // Vertical distance between mouse and el
 
-      let strengthFactor
+      const strengthFactor
         = Object.entries(strengthModifiers).find(
           entry => binding.modifiers[entry[0]],
         )?.[1] || 1
-
-      const direction = binding.modifiers.refuse ? -1 : 1
-      if (binding.modifiers.refuse) strengthFactor = 4
 
       const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2) // Distance between mouse and el
       const centerDistance = Math.sqrt(deltaX ** 2 + deltaY ** 2) // Distance between mouse and el's center
@@ -443,8 +440,8 @@ function addMagneticEffect(el, binding) {
       if (distance < magneticDistanceX && distance < magneticDistanceY) {
         const strength = Math.abs(1 - centerDistance / 4) / ((magneticDistanceX + magneticDistanceY) / 2)
         gsap.to(el, {
-          x: deltaX * strength * attractionStrength * direction,
-          y: deltaY * strength * attractionStrength * direction,
+          x: deltaX * strength * attractionStrength,
+          y: deltaY * strength * attractionStrength,
           duration: 0.2,
         })
       }
