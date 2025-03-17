@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.3.19
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.18...v1.3.19)
+
+### 🏡 Chore
+
+- **changelog:** V1.3.18 ([842d01c](https://github.com/holux-design/v-gsap-nuxt/commit/842d01c))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.3.18
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.17...v1.3.18)
