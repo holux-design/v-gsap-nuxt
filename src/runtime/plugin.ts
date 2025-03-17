@@ -312,7 +312,7 @@ function prepareTimeline(el, binding, configOptions) {
   // .animateText. // .slow // .fast
   if (binding.modifiers.animateText) {
     // if text is inside element => use it as value and then empty it for animation
-    const value = binding.value || el.textContent
+    const value = typeof binding.value === 'string' ? binding.value : (binding.value?.text || el.textContent)
     if (el.textContent) el.textContent = ''
 
     const speeds = {
