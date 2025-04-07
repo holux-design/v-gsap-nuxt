@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.3.20
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.19...v1.3.20)
+
+### 🩹 Fixes
+
+- Update handleMouseMove in addMagnetic function to better handle different size elements ([14e7dfc](https://github.com/holux-design/v-gsap-nuxt/commit/14e7dfc))
+- Fine tune magnetic strength ([1ec7b4a](https://github.com/holux-design/v-gsap-nuxt/commit/1ec7b4a))
+
+### ❤️ Contributors
+
+- Jules Hery <jules.hry@outlook.fr>
+
 ## v1.3.19
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.18...v1.3.19)
