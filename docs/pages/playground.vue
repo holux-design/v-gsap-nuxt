@@ -202,15 +202,6 @@
             text="Hover me"
           />
         </BoxComponent>
-        <BoxComponent
-          code="v-gsap.magnetic.refuse"
-          title=".refuse (lol)"
-        >
-          <DemoComponent
-            v-gsap.magnetic.refuse
-            text="Try me"
-          />
-        </BoxComponent>
       </div>
     </section>
 

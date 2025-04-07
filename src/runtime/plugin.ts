@@ -34,6 +34,7 @@ type TIMELINE_OPTIONS = {
 
 const globalTimelines = {}
 let observer: MutationObserver
+let intersectionObserver: IntersectionObserver
 
 export const vGsapDirective = (
   appType: 'nuxt' | 'vue',
@@ -121,6 +122,7 @@ export const vGsapDirective = (
     gsapContext.revert() // remove gsap timeline
     removeEventListener('resize', resizeListener) // remove resizeListener
     if (observer) observer.disconnect() // Disconnect onState observer (if initialized)
+    if (intersectionObserver) intersectionObserver.disconnect() // Disconnect intersection observer (if initialized)
   },
 })
 
@@ -414,29 +416,32 @@ function addMagneticEffect(el, binding) {
 
   const handleMouseMove = (e: MouseEvent) => {
     if (el) {
-      const { width, height, left, top } = el.getBoundingClientRect()
+      const { width, height, left, right, top, bottom } = el.getBoundingClientRect()
       const centerX = left + width / 2
       const centerY = top + height / 2
       const deltaX = e.clientX - centerX
       const deltaY = e.clientY - centerY
 
-      let strengthFactor
+      const distanceX = left < e.clientX && right > e.clientX ? 0 : Math.min(Math.abs(e.clientX - left), Math.abs(e.clientX - right)) // Horizontal distance between mouse and el
+      const distanceY = top < e.clientY && bottom > e.clientY ? 0 : Math.min(Math.abs(e.clientY - top), Math.abs(e.clientY - bottom)) // Vertical distance between mouse and el
+
+      const strengthFactor
         = Object.entries(strengthModifiers).find(
           entry => binding.modifiers[entry[0]],
         )?.[1] || 1
 
-      const direction = binding.modifiers.refuse ? -1 : 1
-      if (binding.modifiers.refuse) strengthFactor = 4
+      const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2) // Distance between mouse and el
+      const centerDistance = Math.sqrt(deltaX ** 2 + deltaY ** 2) // Distance between mouse and el's center
 
-      const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2)
-      const magneticDistance = ((width + height) / 2) * (strengthFactor / 1.5) // Distance for magnetic attraction
+      const magneticDistanceX = width / 3 // Horizontal distance for magnetic attraction
+      const magneticDistanceY = height / 3 // Vertical distance for magnetic attraction
       const attractionStrength = 0.45 * strengthFactor // Magnetic strength
 
-      if (distance < magneticDistance) {
-        const strength = 1 - distance / magneticDistance
+      if (distance < magneticDistanceX && distance < magneticDistanceY) {
+        const strength = Math.abs(1 - centerDistance / 4) / ((magneticDistanceX + magneticDistanceY) / 2)
         gsap.to(el, {
-          x: deltaX * strength * attractionStrength * direction,
-          y: deltaY * strength * attractionStrength * direction,
+          x: deltaX * strength * attractionStrength,
+          y: deltaY * strength * attractionStrength,
           duration: 0.2,
         })
       }
@@ -450,7 +455,18 @@ function addMagneticEffect(el, binding) {
     }
   }
 
-  window.addEventListener('mousemove', handleMouseMove)
+  intersectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        window.addEventListener('mousemove', handleMouseMove)
+      }
+      else {
+        window.removeEventListener('mousemove', handleMouseMove)
+      }
+    })
+  })
+
+  intersectionObserver.observe(el)
 }
 
 function loadPreset(binding, configOptions) {
