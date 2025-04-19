@@ -13,6 +13,7 @@
 
 <script setup lang="ts">
 import { useGSAP } from '../plugin'
+import { computed } from '#imports'
 
 const props = withDefaults(
   defineProps<{
