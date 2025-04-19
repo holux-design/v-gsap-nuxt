@@ -4,7 +4,6 @@
     ref="slotRef"
     :duration="duration * 1000"
     :appear="appear"
-    :ease="ease"
     @leave="onLeave"
     @enter="onEnter"
   >
