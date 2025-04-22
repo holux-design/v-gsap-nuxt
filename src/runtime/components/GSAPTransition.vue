@@ -32,6 +32,7 @@ const props = withDefaults(
     duration: 0.5,
     appear: false,
     ease: 'power1.inOut',
+    stagger: 0.1,
   },
 )
 
