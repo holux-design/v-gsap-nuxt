@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.3.21
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.20...v1.3.21)
+
+### 🩹 Fixes
+
+- Console warning issue when using preset with value of type string ([be856da](https://github.com/holux-design/v-gsap-nuxt/commit/be856da))
+
+### ❤️ Contributors
+
+- Holux-design <office@holux-design.at>
+
 ## v1.3.20
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.19...v1.3.20)
