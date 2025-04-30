@@ -4,6 +4,14 @@
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.4.0...v1.4.1)
 
+- Refactoring of <GSAPTransition>
+  - allow for multiple elements with v-for
+  - additional properties like stagger
+
+### ❤️ Contributors
+
+- [gluharry](https://github.com/gluharry)
+
 ## v1.3.21
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.3.20...v1.3.21)
