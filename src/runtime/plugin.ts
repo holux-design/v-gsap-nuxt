@@ -474,6 +474,7 @@ function loadPreset(binding, configOptions) {
     preset.modifiers
       .split('.')
       .forEach(modifier => (binding.modifiers[modifier] = true))
+    if(typeof binding.value == 'string') binding.value = {}
     if (preset.value)
       binding.value = { ...binding.value, ...(preset.value as object) }
   }
