@@ -2,10 +2,10 @@ import Draggable from 'gsap/Draggable'
 import { ScrollTrigger, ScrollToPlugin } from 'gsap/all'
 import { gsap } from 'gsap'
 import TextPlugin from 'gsap/TextPlugin'
+import { nextTick } from 'vue'
 import { uuidv4 } from './utils/utils'
 import { entrancePresets } from './utils/entrance-presets'
 import type { Preset } from './types/Preset'
-import { nextTick } from 'vue';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, Draggable, TextPlugin)
 
@@ -474,7 +474,7 @@ function loadPreset(binding, configOptions) {
     preset.modifiers
       .split('.')
       .forEach(modifier => (binding.modifiers[modifier] = true))
-    if(typeof binding.value == 'string') binding.value = {}
+    if (typeof binding.value == 'string') binding.value = {}
     if (preset.value)
       binding.value = { ...binding.value, ...(preset.value as object) }
   }
