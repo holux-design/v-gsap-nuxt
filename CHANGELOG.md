@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.4.2
+
+[compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.4.1...v1.4.2)
+
+### 🩹 Fixes
+
+- Add all missing imports from GSAPTransition ([309901d](https://github.com/holux-design/v-gsap-nuxt/commit/309901d))
+
+### ❤️ Contributors
+
+- Harry Yaprakov <h@yaprakov.com>
+
 ## v1.4.1
 
 [compare changes](https://github.com/holux-design/v-gsap-nuxt/compare/v1.4.0...v1.4.1)
