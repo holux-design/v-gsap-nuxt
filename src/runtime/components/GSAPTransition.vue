@@ -12,9 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import { Transition, TransitionGroup } from 'vue'
+import { onMounted, ref, computed, Transition, TransitionGroup } from 'vue'
 import { useGSAP } from '../plugin'
-import { computed } from '#imports'
 
 type El = Element & { dataset: { index: number } }
 
