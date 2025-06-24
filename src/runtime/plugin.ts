@@ -475,8 +475,15 @@ function loadPreset(binding, configOptions) {
       .split('.')
       .forEach(modifier => (binding.modifiers[modifier] = true))
     if (typeof binding.value == 'string') binding.value = {}
-    if (preset.value)
-      binding.value = { ...binding.value, ...(preset.value as object) }
+    if (preset.value) {
+      if (binding.modifiers.fromTo) {
+        binding.value = [
+          preset.value[0],
+          { ...(preset.value[1] as object), ...binding.value },
+        ]
+      }
+      else binding.value = { ...(preset.value as object), ...binding.value }
+    }
   }
 
   // Load Preset if .preset. modifier is set
