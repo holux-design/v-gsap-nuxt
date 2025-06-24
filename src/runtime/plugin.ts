@@ -60,7 +60,6 @@ export const vGsapDirective = (
     if (!gsapContext) gsapContext = gsap.context(() => {})
 
     if (binding.modifiers.timeline) {
-      if (!timelineShouldBeActive(binding, configOptions)) return
       assignChildrenOrderAttributesFor(vnode)
 
       await nextTick()
@@ -78,6 +77,7 @@ export const vGsapDirective = (
 
   mounted(el, binding) {
     let timeline
+    const mm = gsap.matchMedia()
 
     // Refresh scrollTrigger from .timeline after all has mounted
     if (binding.modifiers.timeline) {
@@ -89,8 +89,20 @@ export const vGsapDirective = (
 
       if (binding.modifiers.magnetic) return addMagneticEffect(el, binding)
 
-      if (timelineShouldBeActive(binding, configOptions))
+      const breakpoint = configOptions?.breakpoint || 768
+      if (binding.modifiers.desktop) {
+        mm.add(`(min-width: ${breakpoint}px)`, () => {
+          timeline = prepareTimeline(el, binding, configOptions)
+        })
+      }
+      else if (binding.modifiers.mobile) {
+        mm.add(`(max-width: ${breakpoint}px)`, () => {
+          timeline = prepareTimeline(el, binding, configOptions)
+        })
+      }
+      else {
         timeline = prepareTimeline(el, binding, configOptions)
+      }
 
       if (binding.modifiers.add) {
         let order
@@ -108,10 +120,7 @@ export const vGsapDirective = (
 
     gsapContext.add(() => timeline)
     resizeListener = window.addEventListener('resize', () => {
-      if (!timelineShouldBeActive(binding, configOptions) && !!timeline)
-        timeline = resetAndKillTimeline(timeline)
-      if (timelineShouldBeActive(binding, configOptions) && !timeline)
-        timeline = prepareTimeline(el, binding, configOptions)
+      ScrollTrigger?.refresh(true)
     })
   },
 
@@ -125,15 +134,6 @@ export const vGsapDirective = (
     if (intersectionObserver) intersectionObserver.disconnect() // Disconnect intersection observer (if initialized)
   },
 })
-
-function timelineShouldBeActive(binding, configOptions) {
-  const breakpoint: number = configOptions?.breakpoint || 768
-
-  if (binding.modifiers.desktop && window.innerWidth <= breakpoint) return false
-  if (binding.modifiers.mobile && window.innerWidth > breakpoint) return false
-
-  return true
-}
 
 function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
   let order = startOrder || 0
@@ -314,7 +314,10 @@ function prepareTimeline(el, binding, configOptions) {
   // .animateText. // .slow // .fast
   if (binding.modifiers.animateText) {
     // if text is inside element => use it as value and then empty it for animation
-    const value = typeof binding.value === 'string' ? binding.value : (binding.value?.text || el.textContent)
+    const value
+      = typeof binding.value === 'string'
+        ? binding.value
+        : binding.value?.text || el.textContent
     if (el.textContent) el.textContent = ''
 
     const speeds = {
@@ -416,14 +419,21 @@ function addMagneticEffect(el, binding) {
 
   const handleMouseMove = (e: MouseEvent) => {
     if (el) {
-      const { width, height, left, right, top, bottom } = el.getBoundingClientRect()
+      const { width, height, left, right, top, bottom }
+        = el.getBoundingClientRect()
       const centerX = left + width / 2
       const centerY = top + height / 2
       const deltaX = e.clientX - centerX
       const deltaY = e.clientY - centerY
 
-      const distanceX = left < e.clientX && right > e.clientX ? 0 : Math.min(Math.abs(e.clientX - left), Math.abs(e.clientX - right)) // Horizontal distance between mouse and el
-      const distanceY = top < e.clientY && bottom > e.clientY ? 0 : Math.min(Math.abs(e.clientY - top), Math.abs(e.clientY - bottom)) // Vertical distance between mouse and el
+      const distanceX
+        = left < e.clientX && right > e.clientX
+          ? 0
+          : Math.min(Math.abs(e.clientX - left), Math.abs(e.clientX - right)) // Horizontal distance between mouse and el
+      const distanceY
+        = top < e.clientY && bottom > e.clientY
+          ? 0
+          : Math.min(Math.abs(e.clientY - top), Math.abs(e.clientY - bottom)) // Vertical distance between mouse and el
 
       const strengthFactor
         = Object.entries(strengthModifiers).find(
@@ -438,7 +448,9 @@ function addMagneticEffect(el, binding) {
       const attractionStrength = 0.45 * strengthFactor // Magnetic strength
 
       if (distance < magneticDistanceX && distance < magneticDistanceY) {
-        const strength = Math.abs(1 - centerDistance / 4) / ((magneticDistanceX + magneticDistanceY) / 2)
+        const strength
+          = Math.abs(1 - centerDistance / 4)
+          / ((magneticDistanceX + magneticDistanceY) / 2)
         gsap.to(el, {
           x: deltaX * strength * attractionStrength,
           y: deltaY * strength * attractionStrength,
