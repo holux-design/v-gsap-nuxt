@@ -44,6 +44,16 @@ export default defineNuxtModule<ModuleOptions>({
         as: 'useGSAP',
         from: resolver.resolve('runtime/plugin'), // load composable from plugin
       })
+      addImports({
+        name: 'useScrollTrigger',
+        as: 'useScrollTrigger',
+        from: resolver.resolve('runtime/plugin'),
+      })
+      addImports({
+        name: 'useGlobalTimelines',
+        as: 'useGlobalTimelines',
+        from: resolver.resolve('runtime/plugin'),
+      })
     }
 
     addComponent({

@@ -1,5 +1,10 @@
 import gsap from 'gsap'
-import { vGsapDirective } from './plugin'
+import {
+  vGsapDirective,
+  useGSAP,
+  useScrollTrigger,
+  useGlobalTimelines,
+} from './plugin'
 
 export const vGsapVue = (configOptions?) => {
   return vGsapDirective(
@@ -9,3 +14,6 @@ export const vGsapVue = (configOptions?) => {
     null,
   )
 }
+
+// Export composables for Vue-only usage
+export { useGSAP, useScrollTrigger, useGlobalTimelines }

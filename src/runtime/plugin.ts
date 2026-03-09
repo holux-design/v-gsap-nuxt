@@ -790,3 +790,11 @@ function getValueFromModifier(binding, term: string) {
 export const useGSAP = (): typeof gsap => {
   return gsap
 }
+
+export const useScrollTrigger = () => {
+  return ScrollTrigger
+}
+
+export const useGlobalTimelines = () => {
+  return globalTimelines
+}
