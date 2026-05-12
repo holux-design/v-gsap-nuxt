@@ -45,11 +45,18 @@ export const vGsapDirective = (
 ) => ({
   getSSRProps: (binding) => {
     binding = loadPreset(binding, configOptions)
+    const m = binding.modifiers
+    const v = binding.value
+    const fromValue = m.fromTo ? v?.[0] : v
+    const fromOpacityZero
+      = (m.from || m.fromTo)
+      && fromValue && typeof fromValue === 'object'
+      && fromValue.opacity === 0
 
     return {
-      'data-vgsap-from-invisible': binding.modifiers.fromInvisible,
-      'data-vgsap-stagger': binding.modifiers.stagger,
-      'data-vgsap-mask': binding.modifiers.mask,
+      'data-vgsap-from-invisible': m.fromInvisible || fromOpacityZero || undefined,
+      'data-vgsap-stagger': m.stagger,
+      'data-vgsap-mask': m.mask,
     }
   },
 
