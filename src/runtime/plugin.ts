@@ -559,7 +559,10 @@ function prepareTimeline(el, binding, configOptions, skipSplitText = false) {
     if (stagger !== false) fromProps.stagger = stagger
     timeline.from(animationTarget, fromProps)
 
-    if (binding.modifiers.fromInvisible) {
+    // gsap.from() infers the to-state from current computed style — when
+    // the SSR hider in vgsap.css pins opacity:0 the tween runs 0->0. Force
+    // opacity:1 explicitly whenever the from-state is 0.
+    if (binding.modifiers.fromInvisible || fromProps.opacity === 0) {
       const toProps: any = { opacity: 1, duration: binding.value.duration || 0.5 }
       if (stagger !== false) toProps.stagger = stagger
       timeline.to(animationTarget, toProps, '<')
