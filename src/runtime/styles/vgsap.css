@@ -4,11 +4,3 @@
 *[data-vgsap-from-invisible="true"][data-vgsap-stagger="true"] > * {
 	opacity: 0;
 }
-
-/* SplitText mask containers - prevent clipping of descenders */
-*[data-vgsap-mask="true"] .gsap-split-line-container,
-*[data-vgsap-mask="true"] .gsap-split-word-container,
-*[data-vgsap-mask="true"] .gsap-split-char-container {
-	line-height: 1.2;
-	padding-bottom: 0.2em;
-}

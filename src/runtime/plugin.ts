@@ -34,8 +34,6 @@ type TIMELINE_OPTIONS = {
 }
 
 const globalTimelines = {}
-let observer: MutationObserver
-let intersectionObserver: IntersectionObserver
 
 export const vGsapDirective = (
   appType: 'nuxt' | 'vue',
@@ -45,11 +43,18 @@ export const vGsapDirective = (
 ) => ({
   getSSRProps: (binding) => {
     binding = loadPreset(binding, configOptions)
+    const m = binding.modifiers
+    const v = binding.value
+    const fromValue = m.fromTo ? v?.[0] : v
+    const fromOpacityZero
+      = (m.from || m.fromTo)
+      && fromValue && typeof fromValue === 'object'
+      && fromValue.opacity === 0
 
     return {
-      'data-vgsap-from-invisible': binding.modifiers.fromInvisible,
-      'data-vgsap-stagger': binding.modifiers.stagger,
-      'data-vgsap-mask': binding.modifiers.mask,
+      'data-vgsap-from-invisible': m.fromInvisible || fromOpacityZero || undefined,
+      'data-vgsap-stagger': m.stagger,
+      'data-vgsap-mask': m.mask,
     }
   },
 
@@ -63,18 +68,17 @@ export const vGsapDirective = (
     if (!gsapContext) gsapContext = gsap.context(() => {})
 
     if (binding.modifiers.timeline) {
+      // Lets child .add directives find this element without a DOM attribute (see findParentTimelineElement)
+      el._gsapTimeline = true
       assignChildrenOrderAttributesFor(vnode)
+
+      // A SplitText timeline needs the hydrated DOM and loaded fonts, so it is created in mounted.
+      // Children wait for it there instead of being added to a timeline that would be thrown away.
+      if (binding.modifiers.splitText) return
 
       await nextTick()
 
-      // Skip SplitText creation in beforeMount to avoid hydration issues
-      // It will be created in mounted hook
-      const timeline = prepareTimeline(
-        el,
-        binding,
-        configOptions,
-        true, // skipSplitText
-      )
+      const timeline = prepareTimeline(el, binding, configOptions)
       globalTimelines[gsapId] = timeline
 
       gsapContext.add(() => globalTimelines[gsapId])
@@ -100,22 +104,14 @@ export const vGsapDirective = (
     if (binding.modifiers.timeline) {
       // DON'T set el.dataset.gsapTimeline - causes hydration mismatch
 
-      // If the timeline element itself uses SplitText, we need to recreate the timeline
-      // after hydration to ensure proper DOM manipulation order
-      if (binding.modifiers.splitText && !el._splitText) {
-        // SplitText already waited above
+      // A timeline element that uses SplitText is only created now (skipped in beforeMount)
+      if (binding.modifiers.splitText && !globalTimelines[el._gsapId]) {
+        await waitForFonts(binding)
+        if (!el.isConnected) return
 
-        // Kill the existing timeline created in beforeMount
-        const existingTimeline = globalTimelines[el._gsapId]
-        if (existingTimeline) {
-          existingTimeline.scrollTrigger?.kill()
-          existingTimeline.kill()
-        }
-
-        // Recreate the timeline with SplitText
-        const newTimeline = prepareTimeline(el, binding, configOptions, false)
-        globalTimelines[el._gsapId] = newTimeline
+        globalTimelines[el._gsapId] = prepareTimeline(el, binding, configOptions)
         gsapContext.add(() => globalTimelines[el._gsapId])
+        releaseSSRHider(el, binding, globalTimelines[el._gsapId])
       }
 
       // Wait for next tick to ensure all child .add directives have been added
@@ -129,9 +125,11 @@ export const vGsapDirective = (
 
       if (binding.modifiers.magnetic) return addMagneticEffect(el, binding)
 
-      // Wait for next tick before DOM manipulation for splitText
+      // Wait for next tick and for fonts before DOM manipulation for splitText
       if (binding.modifiers.splitText) {
         await nextTick()
+        await waitForFonts(binding)
+        if (!el.isConnected) return
       }
 
       const breakpoint = configOptions?.breakpoint || 768
@@ -149,41 +147,40 @@ export const vGsapDirective = (
         timeline = prepareTimeline(el, binding, configOptions)
       }
 
+      releaseSSRHider(el, binding, timeline)
+
       if (binding.modifiers.add) {
+        // Hold the start state until the parent timeline takes over, otherwise the child plays on its own while waiting
+        timeline?.pause()
+
         // Use nextTick to ensure all parent components have completed their beforeMount phase
         nextTick(() => {
+          // .desktop / .mobile outside of their breakpoint: nothing to add
+          if (!timeline) return
+
           let order
             = getValueFromModifier(binding, 'order-')
             || getValueFromModifier(binding, 'suggestedOrder-')
           if (binding.modifiers.withPrevious) order = '<'
 
-          // Try multiple approaches to find the parent timeline
-          let parentTimelineElement = el.closest(`[data-gsap-timeline="true"]`)
-          // If not found with data attribute, try finding by looking for timeline modifier in parent elements
+          const parentTimelineElement = findParentTimelineElement(el)
+          // No .timeline ancestor: play on its own
           if (!parentTimelineElement) {
-            let currentParent = el.parentElement
-            while (currentParent) {
-              if (currentParent.dataset.gsapId && globalTimelines[currentParent.dataset.gsapId]) {
-                parentTimelineElement = currentParent
-                break
-              }
-              currentParent = currentParent.parentElement
-            }
-          }
-
-          if (!parentTimelineElement?.dataset?.gsapId) {
+            timeline.play()
             return
           }
 
           // Use a retry mechanism to ensure parent timeline is ready
+          // (a .timeline.splitText parent only creates it after fonts have loaded)
           const addToParentTimeline = () => {
-            const parentTimeline = globalTimelines[parentTimelineElement.dataset.gsapId]
+            const parentTimeline = globalTimelines[parentTimelineElement._gsapId]
             if (!parentTimeline) {
               // Parent timeline not ready yet, retry after a short delay
-              setTimeout(addToParentTimeline, 10)
+              if (el.isConnected) setTimeout(addToParentTimeline, 10)
               return
             }
-            parentTimeline.add(timeline, order)
+            // Unpause before adding: unpausing afterwards would move the child's start time to the parent's current time
+            parentTimeline.add(timeline.paused(false), order)
           }
           addToParentTimeline()
         })
@@ -202,6 +199,7 @@ export const vGsapDirective = (
     if (gsapId) {
       ScrollTrigger.getById(gsapId)?.kill()
       globalTimelines[gsapId]?.scrollTrigger?.kill()
+      Reflect.deleteProperty(globalTimelines, gsapId)
     }
 
     // Clean up SplitText if it exists
@@ -212,10 +210,37 @@ export const vGsapDirective = (
 
     gsapContext.revert() // remove gsap timeline
     removeEventListener('resize', resizeListener) // remove resizeListener
-    if (observer) observer.disconnect() // Disconnect onState observer (if initialized)
-    if (intersectionObserver) intersectionObserver.disconnect() // Disconnect intersection observer (if initialized)
+    // Observers and listeners live on the element: with a shared instance only the last one created was ever cleaned up
+    el._vgsapStateObserver?.disconnect() // Disconnect onState observer (if initialized)
+    el._vgsapMagneticCleanup?.() // Disconnect magnetic observer and mousemove listener (if initialized)
   },
 })
+
+// Timelines are tracked on the element object (el._gsapTimeline / el._gsapId), not on data attributes,
+// to avoid hydration mismatches. Walk up the DOM to find the closest .timeline element.
+function findParentTimelineElement(el) {
+  let parent = el.parentElement
+  while (parent && !parent._gsapTimeline) parent = parent.parentElement
+  return parent
+}
+
+// Splitting while web fonts are still loading measures the fallback font (wrong line breaks) and makes
+// SplitText warn "SplitText called before fonts loaded". Wait for them unless splitText.waitForFonts is false.
+async function waitForFonts(binding) {
+  if (binding.value?.splitText?.waitForFonts === false) return
+  const fonts = typeof document !== 'undefined' ? document.fonts : undefined
+  if (!fonts || fonts.status === 'loaded') return
+  await fonts.ready
+}
+
+// The SSR hider (data-vgsap-from-invisible, see getSSRProps) only has to last until GSAP has applied the start state.
+// .from / .fromTo render it right away on their targets, so the hider can go. With SplitText it has to go: the
+// targets are the split fragments, so the element itself would stay at opacity 0 forever.
+// A plain .to keeps it, because the tween reads its starting opacity from the computed style.
+function releaseSSRHider(el, binding, timeline) {
+  if (timeline && binding.modifiers.to && !binding.modifiers.splitText) return
+  el.removeAttribute('data-vgsap-from-invisible')
+}
 
 function assignChildrenOrderAttributesFor(vnode, startOrder?): number {
   let order = startOrder || 0
@@ -257,6 +282,16 @@ function prepareSplitText(el, binding) {
       ...binding.value?.splitText || {},
     }
 
+    // Options handled by the directive, not by SplitText: passing onSplit through would make
+    // SplitText call it a second time, with the instance instead of { el, split }
+    const onSplitCb = splitOptions.onSplit
+    const maskPadding = typeof splitOptions.maskPadding === 'number'
+      ? `${splitOptions.maskPadding}px`
+      : splitOptions.maskPadding
+    delete splitOptions.onSplit
+    delete splitOptions.maskPadding
+    delete splitOptions.waitForFonts
+
     // Add mask support if specified in modifiers
     if (binding.modifiers.mask) {
       // Determine mask type based on split type
@@ -271,113 +306,84 @@ function prepareSplitText(el, binding) {
       }
     }
 
-    // Support onSplit callback from options
-    const onSplitCb = splitOptions.onSplit
-    // Whether to wait for custom fonts before final split (default: true)
-    const waitForFonts = splitOptions.waitForFonts !== false
+    // Fonts are already loaded here (see waitForFonts), so a single split has the final measurements
+    const instance = new SplitText(el, splitOptions)
+    el._splitText = instance
 
-    // Helper to create and store a SplitText instance
-    const doSplit = () => {
-      // Clean up any previous instance before re-splitting
-      if (el._splitText && typeof el._splitText.revert === 'function') {
-        try {
-          el._splitText.revert()
-        }
-        catch (e) {
-          /* noop */
-        }
-      }
-      const instance = new SplitText(el, splitOptions)
-      el._splitText = instance
+    if (instance.masks?.length) fitMasksToGlyphs(instance.masks, maskPadding)
 
-      // Apply padding to mask containers to prevent clipping of descenders (g, p, q, y, j)
-      if (binding.modifiers.mask) {
-        const maskPadding = splitOptions.maskPadding ?? '0'
-        const containers = []
-
-        // Get the appropriate mask containers based on split type
-        if (splitOptions.mask === 'lines' && instance.lines) {
-          // For lines mask, each line is wrapped in a parent container with overflow
-          containers.push(...Array.from(instance.lines).map((line: any) => line.parentElement).filter(Boolean))
-        }
-        else if (splitOptions.mask === 'words' && instance.words) {
-          containers.push(...Array.from(instance.words).map((word: any) => word.parentElement).filter(Boolean))
-        }
-        else if (splitOptions.mask === 'chars' && instance.chars) {
-          containers.push(...Array.from(instance.chars).map((char: any) => char.parentElement).filter(Boolean))
-        }
-
-        // Apply padding-bottom to prevent clipping descenders
-        containers.forEach((container: HTMLElement) => {
-          if (container && container.style) {
-            container.style.paddingBottom = maskPadding
-            // Ensure line-height is sufficient for descenders
-            if (!container.style.lineHeight || container.style.lineHeight === 'normal') {
-              container.style.lineHeight = 'normal'
-            }
-          }
-        })
-      }
-
-      // Fire user callback if provided
-      if (typeof onSplitCb === 'function') {
-        try {
-          onSplitCb({ el, split: instance })
-        }
-        catch (e) {
-          /* noop */
-        }
-      }
-      // Also dispatch a DOM event so users can listen without code changes
+    // Fire user callback if provided
+    if (typeof onSplitCb === 'function') {
       try {
-        el.dispatchEvent(new CustomEvent('vgsap:split', { detail: { el, split: instance } }))
-      }
-      catch (e) { /* noop */ }
-
-      // If there is a ScrollTrigger tied to this element, refresh it after splitting
-      try {
-        const gsapId = el._gsapId || el.dataset.gsapId
-        if (gsapId) {
-          ScrollTrigger.getById?.(gsapId)?.refresh?.()
-        }
+        onSplitCb({ el, split: instance })
       }
       catch (e) {
         /* noop */
       }
-
-      return instance
     }
-
-    // Perform an initial split immediately so downstream code has targets
-    const initialSplit = doSplit()
-
-    // If requested, perform a final split after fonts finish loading for accurate measurements
-    if (waitForFonts && typeof document !== 'undefined' && (document as any).fonts) {
-      try {
-        const fonts: any = (document as any).fonts
-        // If fonts aren't fully loaded yet, wait and re-split
-        const ready: Promise<any> = fonts.ready
-        if (ready && fonts.status !== 'loaded') {
-          ready.then(() => {
-            doSplit()
-          }).catch(() => {
-            // Ignore font load errors; keep initial split
-          })
-        }
-      }
-      catch (e) { /* noop */ }
+    // Also dispatch a DOM event so users can listen without code changes
+    try {
+      el.dispatchEvent(new CustomEvent('vgsap:split', { detail: { el, split: instance } }))
     }
+    catch (e) { /* noop */ }
 
-    return initialSplit
+    return instance
   }
 }
 
-function prepareTimeline(el, binding, configOptions, skipSplitText = false) {
+// A mask is as tall as the line-height, so with a tight one (e.g. leading-none on a title) it clips descenders
+// (g, j, p, q, y, Q). Forcing line-height: normal on the mask avoids the clipping but makes the text taller.
+// Instead the split element gets line-height: normal, so its box contains the glyphs and y: '100%' moves them
+// completely out of the mask, and clip-path extends the visible area of the mask to that box.
+// The split element is an inline-block (lines too) with negative margins, so its margin box stays within the
+// line box of the mask: the mask keeps exactly the original line-height whatever the font metrics rounding,
+// and the glyphs do not move since inline-blocks are aligned on their baseline.
+// Values are in em, so they follow responsive font sizes.
+function fitMasksToGlyphs(masks: HTMLElement[], maskPadding?: string) {
+  const items = masks
+    .map((mask) => {
+      const split = mask.firstElementChild as HTMLElement | null
+      if (!split) return null
+      const style = getComputedStyle(split)
+      return { mask, split, lineHeight: Number.parseFloat(style.lineHeight), fontSize: Number.parseFloat(style.fontSize) }
+    })
+    .filter(item => item && item.fontSize > 0) as { mask: HTMLElement, split: HTMLElement, lineHeight: number, fontSize: number }[]
+
+  // Write all, then read all, to measure with a single layout
+  items.forEach(item => (item.split.style.lineHeight = 'normal'))
+  const glyphHeights = items.map(item => item.split.getBoundingClientRect().height)
+
+  items.forEach((item, i) => {
+    // How far the glyphs extend above and below the line-height ("normal" line-height: NaN, nothing to fix)
+    const overflow = (glyphHeights[i] - item.lineHeight) / 2 / item.fontSize
+    if (!(overflow > 0)) {
+      item.split.style.lineHeight = ''
+      if (!maskPadding) return
+    }
+    const extend = overflow > 0 ? `-${+overflow.toFixed(4)}em` : '0px'
+
+    if (overflow > 0) {
+      // 1px more than needed: the margin box only has to fit in the line box, it does not position the glyphs
+      item.split.style.marginTop = `calc(${extend} - 1px)`
+      item.split.style.marginBottom = `calc(${extend} - 1px)`
+      if (getComputedStyle(item.split).display === 'block') {
+        item.split.style.display = 'inline-block'
+        item.split.style.width = '100%'
+      }
+    }
+
+    const bottom = maskPadding ? `calc(${extend} - ${maskPadding})` : extend
+    item.mask.style.overflow = 'visible'
+    item.mask.style.clipPath = `inset(${extend} 0 ${bottom} 0)`
+  })
+}
+
+function prepareTimeline(el, binding, configOptions) {
   const timelineOptions: TIMELINE_OPTIONS = {}
 
   // Prepare SplitText if needed before creating the timeline
-  // Skip in beforeMount to avoid hydration issues, will be done in mounted
-  if (binding.modifiers.splitText && !el._splitText && !skipSplitText) {
+  // Only called from mounted for SplitText elements, so the DOM is already hydrated
+  if (binding.modifiers.splitText && !el._splitText) {
     prepareSplitText(el, binding)
   }
 
@@ -552,7 +558,10 @@ function prepareTimeline(el, binding, configOptions, skipSplitText = false) {
     if (stagger !== false) fromProps.stagger = stagger
     timeline.from(animationTarget, fromProps)
 
-    if (binding.modifiers.fromInvisible) {
+    // gsap.from() infers the to-state from current computed style — when
+    // the SSR hider in vgsap.css pins opacity:0 the tween runs 0->0. Force
+    // opacity:1 explicitly whenever the from-state is 0.
+    if (binding.modifiers.fromInvisible || fromProps.opacity === 0) {
       const toProps: any = { opacity: 1, duration: binding.value.duration || 0.5 }
       if (stagger !== false) toProps.stagger = stagger
       timeline.to(animationTarget, toProps, '<')
@@ -633,7 +642,9 @@ function prepareTimeline(el, binding, configOptions, skipSplitText = false) {
 
     if (getCurrentValue() != targetValue) timeline.pause()
 
-    observer = new MutationObserver((mutationRecords) => {
+    // One observer per element, so unmounting one element does not disconnect another one's
+    el._vgsapStateObserver?.disconnect()
+    el._vgsapStateObserver = new MutationObserver((mutationRecords) => {
       const event = mutationRecords.filter(
         record => record.attributeName == `data-${dataKey}`,
       )?.[0]
@@ -642,7 +653,7 @@ function prepareTimeline(el, binding, configOptions, skipSplitText = false) {
       if (getCurrentValue() == targetValue) return timeline.play()
       else return timeline.play().reverse()
     })
-    observer.observe(targetElement, { attributes: true })
+    el._vgsapStateObserver.observe(targetElement, { attributes: true })
   }
 
   return timeline
@@ -726,7 +737,9 @@ function addMagneticEffect(el, binding) {
     }
   }
 
-  intersectionObserver = new IntersectionObserver((entries) => {
+  // One observer and listener per element: a shared observer was replaced by every new magnetic element,
+  // so after a route change the wrong one got disconnected and the mousemove listeners were never removed
+  const magneticObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         window.addEventListener('mousemove', handleMouseMove)
@@ -737,7 +750,12 @@ function addMagneticEffect(el, binding) {
     })
   })
 
-  intersectionObserver.observe(el)
+  magneticObserver.observe(el)
+
+  el._vgsapMagneticCleanup = () => {
+    magneticObserver.disconnect()
+    window.removeEventListener('mousemove', handleMouseMove)
+  }
 }
 
 function loadPreset(binding, configOptions) {
